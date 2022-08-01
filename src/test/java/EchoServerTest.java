@@ -1,30 +1,72 @@
-import interfaces.IServerSocket;
+import echoServer.EchoServer;
+import echoServer.IClientSocket;
+import echoServer.IReader;
+import echoServer.IServerSocket;
+import echoServer.IWriter;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Tests the Main class.
+ * Tests the echoServer.EchoServer class.
  */
 public class EchoServerTest {
 
     @Test
-    void createsServerSocket() {
-        IServerSocket testServerSocket = new TestServerSocket();
-        EchoServer echoServer = new EchoServer(testServerSocket);
+    void echoesALineOfText() throws IOException {
+        EventLog eventLog = new EventLog();
+        EchoServer echoServer = new EchoServer(eventLog, eventLog, eventLog, eventLog);
 
         echoServer.main();
 
-        assertEquals(List.of("Server socket created!"), testServerSocket.messages());
+        ArrayList expected_events = new ArrayList<String>(
+                Arrays.asList(
+                        "Read client input",
+                        "Echoed output to client",
+                        "Closed input stream",
+                        "Closed output stream",
+                        "Closed client connection",
+                        "Closed server connection"
+                ));
+
+        assertEquals(expected_events, EventLog.events());
     }
 }
 
-class TestServerSocket implements IServerSocket {
-    List<String> messages = List.of("Server socket created!");
+class EventLog implements IServerSocket, IClientSocket, IReader, IWriter {
+    static List<String> events = new ArrayList<String>();
 
-    public List<String> messages() {
-        return messages;
+    public static List<String> events() {
+        return events;
+    }
+
+    public String readLine() {
+        events.add("Read client input");
+        return null;
+    }
+
+    public void println(String s) {
+        events.add("Echoed output to client");
+    }
+
+    public void closeReader() {
+        events.add("Closed input stream");
+    }
+
+    public void closeWriter() {
+        events.add("Closed output stream");
+    }
+
+    public void closeClientConnection() {
+        events.add("Closed client connection");
+    }
+
+    public void closeServerConnection() {
+        events.add("Closed server connection");
     }
 }

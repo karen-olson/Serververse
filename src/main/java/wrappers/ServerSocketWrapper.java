@@ -1,11 +1,9 @@
 package wrappers;
 
-import interfaces.IServerSocket;
-
-import java.util.List;
+import echoServer.IServerSocket;
 
 public class ServerSocketWrapper implements IServerSocket {
-    public List<String> messages() {
-        return null;
+    public void closeServerConnection() {
+
     }
 }
