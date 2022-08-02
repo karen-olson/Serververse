@@ -1,8 +1,10 @@
+package echoServerTests;
+
+import echoServer.Connection;
 import echoServer.EchoServer;
-import echoServer.IClientSocket;
 import echoServer.IReader;
-import echoServer.IServerSocket;
 import echoServer.IWriter;
+import echoServer.PortListener;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -30,15 +32,17 @@ public class EchoServerTest {
                         "Echoed output to client",
                         "Closed input stream",
                         "Closed output stream",
-                        "Closed client connection",
-                        "Closed server connection"
+                        "Closed connection",
+                        "Stopped listening"
                 ));
 
         assertEquals(expected_events, EventLog.events());
     }
+
+
 }
 
-class EventLog implements IServerSocket, IClientSocket, IReader, IWriter {
+class EventLog implements PortListener, Connection, IReader, IWriter {
     static List<String> events = new ArrayList<String>();
 
     public static List<String> events() {
@@ -62,11 +66,13 @@ class EventLog implements IServerSocket, IClientSocket, IReader, IWriter {
         events.add("Closed output stream");
     }
 
-    public void closeClientConnection() {
-        events.add("Closed client connection");
+    @Override
+    public void closeConnection() {
+        events.add("Closed connection");
     }
 
-    public void closeServerConnection() {
-        events.add("Closed server connection");
+    @Override
+    public void stopListening() {
+        events.add("Stopped listening");
     }
 }

@@ -3,14 +3,14 @@ package echoServer;
 import java.io.IOException;
 
 public class EchoServer {
-    IServerSocket serverSocket;
-    IClientSocket clientSocket;
+    PortListener portListener;
+    Connection connection;
     IReader reader;
     IWriter writer;
 
-    public EchoServer(IServerSocket serverSocket, IClientSocket clientSocket, IReader reader, IWriter writer) {
-        this.serverSocket = serverSocket;
-        this.clientSocket = clientSocket;
+    public EchoServer(PortListener portListener, Connection connection, IReader reader, IWriter writer) {
+        this.portListener = portListener;
+        this.connection = connection;
         this.reader = reader;
         this.writer = writer;
     }
@@ -21,8 +21,8 @@ public class EchoServer {
 
         reader.closeReader();
         writer.closeWriter();
-        
-        clientSocket.closeClientConnection();
-        serverSocket.closeServerConnection();
+
+        connection.closeConnection();
+        portListener.stopListening();
     }
 }
