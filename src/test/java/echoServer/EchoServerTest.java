@@ -2,6 +2,7 @@ package echoServer;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EchoServerTest {
     @Test
-    public void itEchosSentText() {
+    public void itEchoesSentText() throws IOException {
         TestConnection connection = new TestConnection().send("hello\n");
         TestListener listener = new TestListener(connection);
         new EchoServer(listener).serve();

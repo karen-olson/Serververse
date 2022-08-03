@@ -1,7 +1,9 @@
 package echoServer;
 
-public interface Connection {
-    String readLine();
+import java.io.IOException;
 
-    void writeLine(String message);
+public interface Connection {
+    String readLine() throws IOException;
+
+    void writeLine(String message) throws IOException;
 }
