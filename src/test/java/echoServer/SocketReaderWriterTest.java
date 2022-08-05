@@ -6,13 +6,14 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SocketConnectionTest {
+public class SocketReaderWriterTest {
 
     @Test
     void readsALineOfText() throws IOException {
-        Connection connection = new SocketConnection(new TestSocket("Hello\n"));
+        TestSocket testSocket = new TestSocket("Hello\n");
+        ReadableWriteable socketReaderWriter = new SocketReaderWriter(testSocket);
 
-        String message = connection.readLine();
+        String message = socketReaderWriter.readLine();
 
         assertEquals("Hello", message);
     }
@@ -20,13 +21,12 @@ public class SocketConnectionTest {
     @Test
     void writesALineOfText() throws IOException {
         TestSocket testSocket = new TestSocket("");
-        Connection connection = new SocketConnection(testSocket);
+        ReadableWriteable socketReaderWriter = new SocketReaderWriter(testSocket);
 
-        connection.writeLine("Hello");
+        socketReaderWriter.writeLine("Hello");
 
         String output = testSocket.output();
 
         assertEquals("Hello\n", output);
     }
-
 }

@@ -2,7 +2,6 @@ package echoServer;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -17,17 +16,17 @@ class TestSocket extends Socket {
     }
 
     @Override
-    public OutputStream getOutputStream() throws IOException {
+    public InputStream getInputStream() {
+        return new ByteArrayInputStream(inputString.getBytes());
+    }
+
+    @Override
+    public OutputStream getOutputStream() {
         outputStream = new ByteArrayOutputStream();
         return outputStream;
     }
 
     public String output() {
         return outputStream.toString();
-    }
-
-    @Override
-    public InputStream getInputStream() throws IOException {
-        return new ByteArrayInputStream(inputString.getBytes());
     }
 }

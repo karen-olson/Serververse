@@ -11,19 +11,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class EchoServerTest {
     @Test
     public void itEchoesSentText() throws IOException {
-        TestConnection connection = new TestConnection().send("hello\n");
-        TestListener listener = new TestListener(connection);
-        new EchoServer(listener).serve();
+        TestReaderWriter testReaderWriter = new TestReaderWriter().send("hello\n");
+        TestListener testListener = new TestListener(testReaderWriter);
+        new EchoServer(testListener).serve();
 
-        assertTrue(connection.received("hello\n"));
+        assertTrue(testReaderWriter.received("hello\n"));
     }
 
-    private class TestConnection implements Connection {
+    private static class TestReaderWriter implements ReadableWriteable {
 
         private final List<String> toRead = new ArrayList<>();
         private final List<String> written = new ArrayList<>();
 
-        public TestConnection send(String message) {
+        public TestReaderWriter send(String message) {
             toRead.add(message);
             return this;
         }
@@ -41,16 +41,11 @@ public class EchoServerTest {
         }
     }
 
-    private class TestListener implements Listener {
-        private final TestConnection connection;
-
-        public TestListener(TestConnection connection) {
-            this.connection = connection;
-        }
+    private record TestListener(TestReaderWriter testReaderWriter) implements PortListenable {
 
         @Override
-        public Connection listen() {
-            return this.connection;
+        public ReadableWriteable listen() {
+            return this.testReaderWriter;
         }
     }
 }

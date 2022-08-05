@@ -2,17 +2,17 @@ package echoServer;
 
 import java.io.IOException;
 
-class EchoServer {
+public class EchoServer {
 
-    private final Listener listener;
+    private final PortListenable portListener;
 
-    public EchoServer(Listener listener) {
-        this.listener = listener;
+    public EchoServer(PortListenable portListener) {
+        this.portListener = portListener;
     }
 
     public void serve() throws IOException {
-        Connection connection = listener.listen();
-        String message = connection.readLine();
-        connection.writeLine(message);
+        ReadableWriteable socketReaderWriter = portListener.listen();
+        String message = socketReaderWriter.readLine();
+        socketReaderWriter.writeLine(message);
     }
 }

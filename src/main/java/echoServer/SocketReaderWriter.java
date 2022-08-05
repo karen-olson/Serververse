@@ -6,10 +6,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class SocketConnection implements Connection {
+public class SocketReaderWriter implements ReadableWriteable {
     private final Socket socket;
 
-    public SocketConnection(Socket socket) {
+    public SocketReaderWriter(Socket socket) {
         this.socket = socket;
     }
 
