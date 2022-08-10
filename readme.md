@@ -6,7 +6,7 @@ Gradle 7.4.
 
 ## Table of Contents
 
-- [Getting Started](#getting_started)
+- [Getting Started](#getting-started)
     - [Installation](#installation)
 - [Usage](#usage)
     - [Buiding the Program](#building-the-program)
