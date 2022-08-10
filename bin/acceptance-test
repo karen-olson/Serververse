@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+test_equality() {
+    if [ "$1" = "$2" ]; then
+      echo "The server gave an expected response"
+      exit 0
+    else
+      echo "The server gave an unexpected response"
+      exit 1
+    fi
+}
+
+input="Hello?"
+output=$(nc localhost 3000 <<<"$input")
+
+if [ $? -eq 0 ]
+then
+  echo "Connected to the server"
+  test_equality "$input" "$output"
+else
+  echo "Could not connect to the server" >&2
+  exit 1
+fi
