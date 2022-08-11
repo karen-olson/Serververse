@@ -12,7 +12,10 @@ public class EchoServer {
 
     public void serve() throws IOException {
         ReadableWriteable socketReaderWriter = portListener.listen();
-        String message = socketReaderWriter.readLine();
-        socketReaderWriter.writeLine(message);
+
+        String message;
+        while ((message = socketReaderWriter.readLine()) != null) {
+            socketReaderWriter.writeLine(message);
+        }
     }
 }
