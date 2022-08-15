@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EchoServerTest {
@@ -16,6 +17,19 @@ public class EchoServerTest {
         new EchoServer(testListener).serve();
 
         assertTrue(testReaderWriter.received("hello\n"));
+    }
+
+    @Test
+    public void itEchoesMultipleLinesOfSentText() throws IOException {
+        TestReaderWriter testReaderWriter = new TestReaderWriter()
+                .send("hello\n")
+                .send("second line\n");
+
+        TestListener testListener = new TestListener(testReaderWriter);
+        new EchoServer(testListener).serve();
+
+
+        assertEquals(List.of("hello\n", "second line\n"), testReaderWriter.received());
     }
 
     private static class TestReaderWriter implements ReadableWriteable {
@@ -32,7 +46,14 @@ public class EchoServerTest {
             return written.contains(message);
         }
 
+        public List<String> received() {
+            return written;
+        }
+
         public String readLine() {
+            if (toRead.isEmpty()) {
+                return null;
+            }
             return toRead.remove(0);
         }
 
