@@ -36,17 +36,17 @@ public class EchoServerTest {
     }
 
     @Test
-    public void closesIOStreamsAfterDisconnecting() throws Exception {
+    public void closesReadableWriteable() throws Exception {
         TestReaderWriter testReaderWriter = new TestReaderWriter()
                 .send("text sent when connection is open\n")
-                .closeConnection();
+                .disconnect();
 
         TestListener testListener = new TestListener(testReaderWriter);
         Loopable looper = new DoItOnce();
         new EchoServer(testListener, looper).serve();
 
         assertEquals(List.of(
-                        "Closed ReadableWriteable IO streams"),
+                        "Closed ReadableWriteable"),
                 testReaderWriter.events());
     }
 
@@ -54,7 +54,7 @@ public class EchoServerTest {
     public void itAcceptsRepeatedConnections() throws Exception {
         TestReaderWriter testReaderWriter = new TestReaderWriter()
                 .send("text sent over first connection\n")
-                .closeConnection()
+                .disconnect()
                 .send("text sent over second connection \n");
 
         TestListener testListener = new TestListener(testReaderWriter);
@@ -103,10 +103,10 @@ public class EchoServerTest {
 
         @Override
         public void close() {
-            events.add("Closed ReadableWriteable IO streams");
+            events.add("Closed ReadableWriteable");
         }
 
-        public TestReaderWriter closeConnection() {
+        public TestReaderWriter disconnect() {
             return this.send(null);
         }
     }

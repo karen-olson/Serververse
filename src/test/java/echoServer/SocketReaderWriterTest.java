@@ -3,9 +3,9 @@ package echoServer;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SocketReaderWriterTest {
 
@@ -32,17 +32,32 @@ public class SocketReaderWriterTest {
     }
 
     @Test
-    void itCloses() throws IOException {
-        TestSocket testSocket = new TestSocket("Hello\n");
+    void createsOnlyOneReaderAndOneWriter() throws IOException {
+        TestSocket testSocket = new TestSocket("First input line\nSecond input line\n");
         ReadableWriteable socketReaderWriter = new SocketReaderWriter(testSocket);
 
         socketReaderWriter.readLine();
-        socketReaderWriter.writeLine("Hello");
+        socketReaderWriter.readLine();
+        socketReaderWriter.writeLine("");
+        socketReaderWriter.writeLine("");
+
+        assertEquals(List.of(
+                "A new reader accessed the input stream",
+                "A new writer accessed the output stream"
+        ), testSocket.events());
+    }
+
+    @Test
+    void closesTheConnection() throws Exception {
+        TestSocket testSocket = new TestSocket("Hello\n");
+        ReadableWriteable socketReaderWriter = new SocketReaderWriter(testSocket);
 
         socketReaderWriter.close();
 
-        assertThrows(IOException.class, () -> {
-            socketReaderWriter.readLine();
-        });
+        assertEquals(List.of(
+                "A new reader accessed the input stream",
+                "A new writer accessed the output stream",
+                "The socket has been closed"
+        ), testSocket.events());
     }
 }

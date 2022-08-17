@@ -7,14 +7,15 @@ import java.net.ServerSocket;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-        ServerSocket serverSocket = new ServerSocket(3000);
-        PortListenable portListener = new PortListener(serverSocket);
-        Loopable infiniteLooper = block -> {
-            while (true) {
-                block.call();
-            }
-        };
+        try (ServerSocket serverSocket = new ServerSocket(3000)) {
+            PortListenable portListener = new PortListener(serverSocket);
+            Loopable infiniteLooper = block -> {
+                while (true) {
+                    block.call();
+                }
+            };
 
-        new EchoServer(portListener, infiniteLooper).serve();
+            new EchoServer(portListener, infiniteLooper).serve();
+        }
     }
 }

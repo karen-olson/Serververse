@@ -31,7 +31,6 @@ public class SocketReaderWriter implements ReadableWriteable {
 
     @Override
     public void close() throws IOException {
-        reader.close();
-        writer.close();
+        socket.close();
     }
 }

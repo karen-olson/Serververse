@@ -12,14 +12,13 @@ public class EchoServer {
 
     public void serve() throws Exception {
         looper.loop(() -> {
-            ReadableWriteable socketReaderWriter = portListener.listen();
+            try (ReadableWriteable socketReaderWriter = portListener.listen()) {
 
-            String message;
-            while ((message = socketReaderWriter.readLine()) != null) {
-                socketReaderWriter.writeLine(message);
+                String message;
+                while ((message = socketReaderWriter.readLine()) != null) {
+                    socketReaderWriter.writeLine(message);
+                }
             }
-
-            socketReaderWriter.close();
         });
     }
 }
