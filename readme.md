@@ -20,7 +20,7 @@ Gradle 7.4.
 
 ### Installation
 
-Clone this repo from the terminal:
+Clone this repo:
 
 ```
 git clone https://github.com/karen-olson/serververse
@@ -30,11 +30,11 @@ git clone https://github.com/karen-olson/serververse
 
 ### Building the Program
 
-From program directory:
+```cd``` into the program directory and enter ```gradle build```
 
-```
-./gradlew build
-```
+### Launching the program
+
+To run the program internally in IntelliJ, enter ```gradle run``` in the terminal.
 
 ### Linting
 
@@ -42,15 +42,11 @@ This project uses IntelliJ's built-in formatting capabilities, and does not use 
 
 ### Testing
 
-Run tests:
+To run tests, enter ```gradle test``` in the terminal.
 
-```
-./gradlew test
-```
+### Ending the program
 
-### Launching the program
-
-To run the program internally in IntelliJ, select the Run button or use ctrl + shift + R.
+To stop the server, enter CTRL+C in the terminal.
 
 ### Making a Request
 
@@ -58,7 +54,8 @@ There are many ways you can make a request to the server.
 
 #### Request Using Netcat
 
-To make requests using netcat, enter ``nc <url>`` on the command line.
+To make requests using netcat, enter ``nc <url>`` in the terminal.
+To disconnect from the server when using netcat, enter CTRL+C or CTRL+D in the terminal.
 
 ## Future Implementation
 
