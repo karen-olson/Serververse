@@ -8,22 +8,29 @@ import java.net.Socket;
 
 public class SocketReaderWriter implements ReadableWriteable {
     private final Socket socket;
+    private final BufferedReader reader;
+    private final PrintWriter writer;
 
-    public SocketReaderWriter(Socket socket) {
+    public SocketReaderWriter(Socket socket) throws IOException {
         this.socket = socket;
+        this.reader = new BufferedReader(
+                new InputStreamReader(this.socket.getInputStream())
+        );
+        this.writer = new PrintWriter(socket.getOutputStream(), true);
     }
 
     @Override
     public String readLine() throws IOException {
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(this.socket.getInputStream())
-        );
         return reader.readLine();
     }
 
     @Override
     public void writeLine(String message) throws IOException {
-        PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
         writer.println(message);
+    }
+
+    @Override
+    public void close() throws IOException {
+        socket.close();
     }
 }

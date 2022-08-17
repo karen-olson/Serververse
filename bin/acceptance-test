@@ -21,3 +21,4 @@ else
   echo "Could not connect to the server" >&2
   exit 1
 fi
+
