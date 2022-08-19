@@ -9,8 +9,8 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    name: Build and test
+  build-and-test:
+    name: build-and-test
     runs-on: ubuntu-latest
 
     steps:
@@ -26,3 +26,9 @@ jobs:
         run: ./gradlew build
       - name: Test
         run: ./gradlew test
+      - name: Create jar file
+        run: ./gradlew jar
+      - name: Run acceptance test
+        run: ./bin/acceptance-test ./build/libs/Serververse-1.0-SNAPSHOT.jar
+        shell: bash
+

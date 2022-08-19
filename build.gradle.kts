@@ -19,6 +19,12 @@ tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
 
+tasks.getByName<Jar>("jar") {
+    manifest {
+        attributes["Main-Class"] = "echoServer.Main"
+    }
+}
+
 application {
     mainClass.set("src/main/java/echoServer/Main.java")
 }
