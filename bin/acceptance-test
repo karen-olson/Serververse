@@ -3,7 +3,7 @@
 set -e
 
 function start {
-  java -jar $1 >/dev/null &
+  java -jar "$1" >/dev/null &
   echo $!
 }
 
@@ -14,14 +14,14 @@ function wait_for_server {
   echo "Waiting for server to start"
   local max_attempts=5
   for i in $(seq 1 $max_attempts); do
-    if nc -z $host $port; then
+    if nc -z "$host" "$port"; then
       break
     fi
     if [[ $i == $max_attempts ]]; then
       echo "Timeout waiting for server"
       exit 1
     fi
-    sleep $i
+    sleep "$i"
     echo -n "."
   done
 }
@@ -33,24 +33,24 @@ function connect_with_netcat {
   local input=$3
   local timeout_seconds=0
 
-  if [ $os="Linux" ]
+  if [ $os == "Linux" ]
   then
-    nc $host $port -q $timeout_seconds <<<"$input"
+    nc "$host" "$port" -q "$timeout_seconds" <<<"$input"
   else
-    nc $host $port <<<"$input"
+    nc "$host" "$port" <<<"$input"
   fi
 }
 
 function test {
   input="Hello?\nAnotherLine"
 
-  output=$(connect_with_netcat localhost 3000 $input)
+  output=$(connect_with_netcat localhost 3000 "$input")
 
   test_equality "$input" "$output"
 }
 
 function test_equality {
-  if [ "$1" = "$2" ]; then
+  if [ "$1" == "$2" ]; then
     echo "The server gave an expected response"
   else
     echo "The server gave an unexpected response"
@@ -60,7 +60,7 @@ function test_equality {
 
 function main {
   local jar=$1
-  pid=$(start $jar)
+  pid=$(start "$jar")
   trap 'kill $pid' EXIT
 
   wait_for_server localhost 3000
