@@ -28,6 +28,6 @@ jobs:
         run: ./gradlew test
       - name: Create jar file
         run: ./gradlew jar
-      - name: Run acceptance test
+      - name: Run acceptance test on echoServer
         run: ./bin/acceptance-test ./build/libs/Serververse-1.0-SNAPSHOT.jar
         shell: bash
