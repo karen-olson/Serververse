@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MyServerTest {
     @Test
-    void itCallsApplicationWithASocketConnection() throws Exception {
+    void itGivesApplicationASocketConnection() throws Exception {
         TestApplication app = new TestApplication();
         Loopable doItOnce = new DoItOnce();
         TestReaderWriter testReaderWriter = new TestReaderWriter();
@@ -19,24 +19,7 @@ public class MyServerTest {
 
         assertEquals(List.of(
                 "App was called",
-                "Socket connection received"
-        ), app.events());
-    }
-
-    @Test
-    void itLoops() throws Exception {
-        TestApplication app = new TestApplication();
-        Loopable doItTwice = new DoItTwice();
-        TestReaderWriter testReaderWriter = new TestReaderWriter();
-        TestPortListener testPortListener = new TestPortListener(testReaderWriter);
-
-        new MyServer(doItTwice, testPortListener).serve(app);
-
-        assertEquals(List.of(
-                "App was called",
-                "Socket connection received",
-                "App was called",
-                "Socket connection received"
+                "New socket connection received"
         ), app.events());
     }
 
@@ -52,6 +35,23 @@ public class MyServerTest {
         assertEquals(List.of("Connection closed"), testReaderWriter.events());
     }
 
+    @Test
+    void itAcceptsRepeatedConnections() throws Exception {
+        TestApplication app = new TestApplication();
+        Loopable doItTwice = new DoItTwice();
+        TestReaderWriter testReaderWriter = new TestReaderWriter();
+        TestPortListener testPortListener = new TestPortListener(testReaderWriter);
+
+        new MyServer(doItTwice, testPortListener).serve(app);
+
+        assertEquals(List.of(
+                "App was called",
+                "New socket connection received",
+                "App was called",
+                "New socket connection received"
+        ), app.events());
+    }
+
     private static class TestApplication implements Application {
         private final List<String> events = new ArrayList<>();
 
@@ -62,7 +62,7 @@ public class MyServerTest {
         @Override
         public void call(ReadableWriteable readerWriter) {
             events.add("App was called");
-            if (readerWriter != null) events.add("Socket connection received");
+            if (readerWriter != null) events.add("New socket connection received");
         }
     }
 

@@ -1,5 +1,7 @@
 package echoServer;
 
+import java.io.IOException;
+
 public interface Application {
-    void call(ReadableWriteable readerWriter);
+    void call(ReadableWriteable readerWriter) throws IOException;
 }

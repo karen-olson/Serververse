@@ -1,24 +1,14 @@
 package echoServer;
 
-public class EchoServer {
+import java.io.IOException;
 
-    private final PortListenable portListener;
-    private final Loopable looper;
+public class EchoServer implements Application {
 
-    public EchoServer(PortListenable portListener, Loopable looper) {
-        this.portListener = portListener;
-        this.looper = looper;
-    }
-
-    public void serve() throws Exception {
-        looper.loop(() -> {
-            try (ReadableWriteable socketReaderWriter = portListener.listen()) {
-
-                String message;
-                while ((message = socketReaderWriter.readLine()) != null) {
-                    socketReaderWriter.writeLine(message);
-                }
-            }
-        });
+    @Override
+    public void call(ReadableWriteable socketReaderWriter) throws IOException {
+        String message;
+        while ((message = socketReaderWriter.readLine()) != null) {
+            socketReaderWriter.writeLine(message);
+        }
     }
 }
