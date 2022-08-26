@@ -31,4 +31,3 @@ jobs:
       - name: Run acceptance test
         run: ./bin/acceptance-test ./build/libs/Serververse-1.0-SNAPSHOT.jar
         shell: bash
-

@@ -1,4 +1,4 @@
-package echoServer;
+package server;
 
 public class MyServer {
 

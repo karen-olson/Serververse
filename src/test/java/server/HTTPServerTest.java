@@ -1,4 +1,4 @@
-package echoServer;
+package server;
 
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +18,6 @@ public class HTTPServerTest {
 
         assertEquals(List.of("HTTP/1.1 200 OK\n\nHello, world"), testReaderWriter.received());
     }
-
 
     private class TestReaderWriter implements ReadableWriteable {
 

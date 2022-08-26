@@ -1,4 +1,4 @@
-package echoServer;
+package server;
 
 public interface Loopable {
     void loop(Block block) throws Exception;

@@ -21,10 +21,10 @@ tasks.getByName<Test>("test") {
 
 tasks.getByName<Jar>("jar") {
     manifest {
-        attributes["Main-Class"] = "echoServer.Main"
+        attributes["Main-Class"] = "server.HTTPServerMain"
     }
 }
 
 application {
-    mainClass.set("src/main/java/echoServer/Main.java")
+    mainClass.set("src/main/java/server/HTTPServerMain.java")
 }
