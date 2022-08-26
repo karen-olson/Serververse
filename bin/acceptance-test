@@ -3,7 +3,7 @@
 set -e
 
 function start {
-  java -jar $1 >/dev/null &
+  java -cp $1 server.EchoServerMain >/dev/null &
   echo $!
 }
 
