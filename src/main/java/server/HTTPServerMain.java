@@ -7,7 +7,7 @@ import java.net.ServerSocket;
  */
 public class HTTPServerMain {
     public static void main(String[] args) throws Exception {
-        try (ServerSocket serverSocket = new ServerSocket(3000)) {
+        try (ServerSocket serverSocket = new ServerSocket(5000)) {
             PortListenable portListener = new PortListener(serverSocket);
             Loopable infiniteLooper = block -> {
                 while (true) {

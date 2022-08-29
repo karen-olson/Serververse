@@ -14,7 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          ssh-key: ${{ secrets.SSH_KEY }}
+          submodules: true
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -37,6 +41,21 @@ jobs:
       - name: Run acceptance test for Echo Server
         run: ./bin/acceptance-test ./build/libs/Serververse-1.0-SNAPSHOT.jar
         shell: bash
+
+      - name: Run server in background
+        run: java -jar ./build/libs/Serververse-1.0-SNAPSHOT.jar &
+
+      - name: Set up Ruby 2.7
+        uses: ruby/setup-ruby@2b019609e2b0f1ea1a2bc8ca11cb82ab46ada124
+        with:
+          ruby-version: '2.7'
+
+      - name: Run acceptance test suite for HTTP Server
+        run: |
+          cd http_server_spec
+          bundle install
+          bundle exec spinach
+        continue-on-error: true
 
   deploy:
     name: deploy
