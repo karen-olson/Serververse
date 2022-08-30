@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class HTTPServerTest {
 
     @Test
-    void itReturnsHelloWorld() throws IOException {
+    void itReturnsAResponseWithNoBody() throws IOException {
         TestReaderWriter testReaderWriter = new TestReaderWriter();
 
         new HTTPServer().call(testReaderWriter);
 
-        assertEquals(List.of("HTTP/1.1 200 OK\n\nHello, world"), testReaderWriter.received());
+        assertEquals(List.of("HTTP/1.1 200 OK\r\nContent-Length:0\r\n"), testReaderWriter.received());
     }
 
     private class TestReaderWriter implements ReadableWriteable {
