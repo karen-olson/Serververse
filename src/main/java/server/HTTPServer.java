@@ -16,6 +16,7 @@ public class HTTPServer implements Application {
         readRequest(readerWriter);
         parseRequest();
         writeResponse(readerWriter);
+        resetRequest();
     }
 
     private void readRequest(ReadableWriteable readerWriter) throws IOException {
@@ -38,5 +39,9 @@ public class HTTPServer implements Application {
         } else {
             readerWriter.writeLine("HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n");
         }
+    }
+
+    private void resetRequest() {
+        this.request = new ArrayList<>();
     }
 }

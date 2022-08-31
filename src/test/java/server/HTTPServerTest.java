@@ -34,6 +34,24 @@ public class HTTPServerTest {
                 testReaderWriter.received());
     }
 
+    @Test
+    void itHandlesRepeatedRequests() throws IOException {
+        String test200Request = "GET / HTTP/1.1\r\nContent-Length:0\r\n";
+        String test404Request = "GET /nonexistent_resource HTTP/1.1\r\nContent-Length:0\r\n";
+        TestReaderWriter testReaderWriter = new TestReaderWriter()
+                .send(test200Request)
+                .send(test404Request);
+
+        HTTPServer httpServer = new HTTPServer();
+        httpServer.call(testReaderWriter);
+        httpServer.call(testReaderWriter);
+
+        assertEquals(List.of(
+                        "HTTP/1.1 200 OK\r\nContent-Length:0\r\n",
+                        "HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n"),
+                testReaderWriter.received());
+    }
+
     public static class TestReaderWriter implements ReadableWriteable {
 
         private final List<String> toRead = new ArrayList<>();
