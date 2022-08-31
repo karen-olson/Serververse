@@ -9,23 +9,29 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HTTPServerTest {
-
     @Test
-    void itReturnsAResponseWithNoBody() throws IOException {
-        TestReaderWriter testReaderWriter = new TestReaderWriter();
+    void itReturns404NotFoundForNonexistentResource() throws IOException {
+        String testRequest = "GET /nonexistent_resource HTTP/1.1\r\nContent-Length:0\r\n";
+        TestReaderWriter testReaderWriter = new TestReaderWriter()
+                .send(testRequest);
 
         new HTTPServer().call(testReaderWriter);
 
-        assertEquals(List.of("HTTP/1.1 200 OK\r\nContent-Length:0\r\n"), testReaderWriter.received());
+        assertEquals(List.of("HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n"),
+                testReaderWriter.received());
     }
 
-    private class TestReaderWriter implements ReadableWriteable {
+    public static class TestReaderWriter implements ReadableWriteable {
 
+        private final List<String> toRead = new ArrayList<>();
         private final List<String> written = new ArrayList<>();
 
         @Override
         public String readLine() {
-            return null;
+            if (toRead.isEmpty()) {
+                return null;
+            }
+            return toRead.remove(0);
         }
 
         @Override
@@ -33,12 +39,17 @@ public class HTTPServerTest {
             written.add(message);
         }
 
+        public TestReaderWriter send(String message) {
+            toRead.add(message);
+            return this;
+        }
+
         public List<String> received() {
             return written;
         }
 
         @Override
-        public void close() throws Exception {
+        public void close() {
 
         }
     }
