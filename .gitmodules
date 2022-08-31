@@ -1,0 +1,3 @@
+[submodule "http_server_spec"]
+	path = http_server_spec
+	url = git@github.com:8thlight/http_server_spec.git

@@ -1,21 +1,22 @@
-package echoServer;
+package server;
 
 import java.net.ServerSocket;
 
 /**
  * echoServer.Main runs the server.
  */
-public class Main {
+public class HTTPServerMain {
     public static void main(String[] args) throws Exception {
-        try (ServerSocket serverSocket = new ServerSocket(3000)) {
+        try (ServerSocket serverSocket = new ServerSocket(5000)) {
             PortListenable portListener = new PortListener(serverSocket);
             Loopable infiniteLooper = block -> {
                 while (true) {
                     block.call();
                 }
             };
+            Application httpServer = new HTTPServer();
 
-            new EchoServer(portListener, infiniteLooper).serve();
+            new MyServer(infiniteLooper, portListener).serve(httpServer);
         }
     }
 }

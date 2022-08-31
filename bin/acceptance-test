@@ -3,7 +3,7 @@
 set -e
 
 function start {
-  java -jar $1 >/dev/null &
+  java -cp $1 server.EchoServerMain >/dev/null &
   echo $!
 }
 
@@ -42,9 +42,12 @@ function connect_with_netcat {
 }
 
 function test {
+  local host=$1
+  local port=$2
+
   input="Hello?\nAnotherLine"
 
-  output=$(connect_with_netcat localhost 3000 $input)
+  output=$(connect_with_netcat "$host" "$port" $input)
 
   test_equality "$input" "$output"
 }
@@ -60,14 +63,16 @@ function test_equality {
 
 function main {
   local jar=$1
+  local host="localhost"
+  local port=5000
   pid=$(start $jar)
   trap 'kill $pid' EXIT
 
-  wait_for_server localhost 3000
+  wait_for_server "$host" "$port"
 
   for i in {1..2}
   do
-    test
+    test "$host" "$port"
   done
 }
 

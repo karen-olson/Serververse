@@ -1,4 +1,4 @@
-package echoServer;
+package server;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
