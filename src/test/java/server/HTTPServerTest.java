@@ -9,6 +9,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HTTPServerTest {
+
     @Test
     void itReturns404NotFoundForNonexistentResource() throws IOException {
         String testRequest = "GET /nonexistent_resource HTTP/1.1\r\nContent-Length:0\r\n";
