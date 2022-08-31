@@ -11,6 +11,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class HTTPServerTest {
 
     @Test
+    void itReturns200OKForExistingResource() throws IOException {
+        String testRequest = "GET / HTTP/1.1\r\nContent-Length:0\r\n";
+        TestReaderWriter testReaderWriter = new TestReaderWriter()
+                .send(testRequest);
+
+        new HTTPServer().call(testReaderWriter);
+
+        assertEquals(List.of("HTTP/1.1 200 OK\r\nContent-Length:0\r\n"),
+                testReaderWriter.received());
+    }
+
+    @Test
     void itReturns404NotFoundForNonexistentResource() throws IOException {
         String testRequest = "GET /nonexistent_resource HTTP/1.1\r\nContent-Length:0\r\n";
         TestReaderWriter testReaderWriter = new TestReaderWriter()

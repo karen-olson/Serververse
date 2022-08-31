@@ -2,10 +2,13 @@ package server;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class HTTPServer implements Application {
     ArrayList<String> request = new ArrayList<>();
-    ArrayList<String> resources = new ArrayList<>();
+
+    List<String> resources = List.of("/");
+
     String requestedResource;
 
     @Override
