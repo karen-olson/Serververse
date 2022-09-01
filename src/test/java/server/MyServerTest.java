@@ -27,12 +27,14 @@ public class MyServerTest {
     void itClosesTheConnection() throws Exception {
         TestApplication app = new TestApplication();
         Loopable doItOnce = new DoItOnce();
-        TestReaderWriter testReaderWriter = new TestReaderWriter();
-        TestPortListener testPortListener = new TestPortListener(testReaderWriter);
+        ReaderWriterLog readerWriterLog = new ReaderWriterLog();
+        TestPortListener testPortListener = new TestPortListener(readerWriterLog);
 
         new MyServer(doItOnce, testPortListener).serve(app);
 
-        assertEquals(List.of("Connection closed"), testReaderWriter.events());
+        assertEquals(List.of(
+                "Connection closed"
+        ), readerWriterLog.events());
     }
 
     @Test
@@ -81,7 +83,7 @@ public class MyServerTest {
         }
     }
 
-    private static class TestReaderWriter implements ReadableWriteable {
+    private static class ReaderWriterLog implements ReadableWriteable {
         private final List<String> events = new ArrayList<>();
 
         @Override
@@ -103,7 +105,7 @@ public class MyServerTest {
         }
     }
 
-    private record TestPortListener(TestReaderWriter testReaderWriter) implements PortListenable {
+    private record TestPortListener(ReadableWriteable testReaderWriter) implements PortListenable {
 
         @Override
         public ReadableWriteable listen() {
