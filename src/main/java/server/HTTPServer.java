@@ -5,16 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HTTPServer implements Application {
-
     private final List<String> resources = List.of("/");
-
-    private String requestedResource;
 
     @Override
     public void call(ReadableWriteable readerWriter) throws IOException {
         ArrayList<String> request = readRequest(readerWriter);
-        parseRequest(request);
-        writeResponse(readerWriter);
+        String requestedResource = parseRequest(request);
+        writeResponse(requestedResource, readerWriter);
     }
 
     private ArrayList<String> readRequest(ReadableWriteable readerWriter) throws IOException {
@@ -26,15 +23,12 @@ public class HTTPServer implements Application {
         return request;
     }
 
-    private void parseRequest(ArrayList<String> request) {
-        requestedResource = getRequestedResource(request);
+    private String parseRequest(ArrayList<String> request) {
+        String requestedResource = request.get(0).split("\\s+")[1];
+        return requestedResource;
     }
 
-    private String getRequestedResource(ArrayList<String> request) {
-        return request.get(0).split("\\s+")[1];
-    }
-
-    private void writeResponse(ReadableWriteable readerWriter) throws IOException {
+    private void writeResponse(String requestedResource, ReadableWriteable readerWriter) throws IOException {
         if (resources.contains(requestedResource)) {
             readerWriter.writeLine("HTTP/1.1 200 OK\r\nContent-Length:0\r\n");
         } else {
