@@ -5,31 +5,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HTTPServer implements Application {
-    ArrayList<String> request = new ArrayList<>();
 
-    List<String> resources = List.of("/");
+    private final List<String> resources = List.of("/");
 
-    String requestedResource;
+    private String requestedResource;
 
     @Override
     public void call(ReadableWriteable readerWriter) throws IOException {
-        readRequest(readerWriter);
-        parseRequest();
+        ArrayList<String> request = readRequest(readerWriter);
+        parseRequest(request);
         writeResponse(readerWriter);
-        resetRequest();
     }
 
-    private void readRequest(ReadableWriteable readerWriter) throws IOException {
-        String line;
-        line = readerWriter.readLine();
+    private ArrayList<String> readRequest(ReadableWriteable readerWriter) throws IOException {
+        String line = readerWriter.readLine();
+        ArrayList<String> request = new ArrayList<>();
+
         request.add(line);
+
+        return request;
     }
 
-    private void parseRequest() {
-        requestedResource = getRequestedResource();
+    private void parseRequest(ArrayList<String> request) {
+        requestedResource = getRequestedResource(request);
     }
 
-    private String getRequestedResource() {
+    private String getRequestedResource(ArrayList<String> request) {
         return request.get(0).split("\\s+")[1];
     }
 
@@ -39,9 +40,5 @@ public class HTTPServer implements Application {
         } else {
             readerWriter.writeLine("HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n");
         }
-    }
-
-    private void resetRequest() {
-        this.request = new ArrayList<>();
     }
 }
