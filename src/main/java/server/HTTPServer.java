@@ -3,9 +3,10 @@ package server;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HTTPServer implements Application {
-    private final List<String> paths = List.of("/");
+    private final List<String> paths = List.of("/", "/simple_get", "/simple_get_with_body");
 
     @Override
     public void call(ReadableWriteable readerWriter) throws IOException {
@@ -29,9 +30,13 @@ public class HTTPServer implements Application {
 
     private void writeResponse(String path, ReadableWriteable readerWriter) throws IOException {
         if (paths.contains(path)) {
-            readerWriter.writeLine("HTTP/1.1 200 OK\r\nContent-Length:0\r\n");
+            if (Objects.equals(path, "/simple_get_with_body")) {
+                readerWriter.writeLine("HTTP/1.1 200 OK\r\nContent-Length:11\r\n\nHello world");
+            } else {
+                readerWriter.writeLine("HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n");
+            }
         } else {
-            readerWriter.writeLine("HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n");
+            readerWriter.writeLine("HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n\n");
         }
     }
 }

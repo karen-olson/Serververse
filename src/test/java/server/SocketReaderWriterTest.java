@@ -28,7 +28,7 @@ public class SocketReaderWriterTest {
 
         String output = testSocket.output();
 
-        assertEquals("Hello\n", output);
+        assertEquals("Hello", output);
     }
 
     @Test

@@ -17,8 +17,35 @@ public class HTTPServerTest {
 
         new HTTPServer().call(testReaderWriter);
 
-        assertEquals(List.of("HTTP/1.1 200 OK\r\nContent-Length:0\r\n"),
-                testReaderWriter.received());
+        assertEquals(List.of(
+                "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n"
+        ), testReaderWriter.received());
+    }
+
+    @Test
+    void itReturns200OKForSimpleGet() throws IOException {
+        String testRequest = "GET /simple_get HTTP/1.1\r\nContent-Length:0\r\n";
+        TestReaderWriter testReaderWriter = new TestReaderWriter()
+                .send(testRequest);
+
+        new HTTPServer().call(testReaderWriter);
+
+        assertEquals(List.of(
+                "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n"
+        ), testReaderWriter.received());
+    }
+
+    @Test
+    void itReturns200OKHelloWorldForSimpleGetWithBody() throws IOException {
+        String testRequest = "GET /simple_get_with_body HTTP/1.1\r\nContent-Length:0\r\n";
+        TestReaderWriter testReaderWriter = new TestReaderWriter()
+                .send(testRequest);
+
+        new HTTPServer().call(testReaderWriter);
+
+        assertEquals(List.of(
+                "HTTP/1.1 200 OK\r\nContent-Length:11\r\n\nHello world"
+        ), testReaderWriter.received());
     }
 
     @Test
@@ -29,8 +56,9 @@ public class HTTPServerTest {
 
         new HTTPServer().call(testReaderWriter);
 
-        assertEquals(List.of("HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n"),
-                testReaderWriter.received());
+        assertEquals(List.of(
+                "HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n\n"
+        ), testReaderWriter.received());
     }
 
     @Test
@@ -46,8 +74,8 @@ public class HTTPServerTest {
         httpServer.call(testReaderWriter);
 
         assertEquals(List.of(
-                        "HTTP/1.1 200 OK\r\nContent-Length:0\r\n",
-                        "HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n"),
-                testReaderWriter.received());
+                "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n",
+                "HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n\n"
+        ), testReaderWriter.received());
     }
 }
