@@ -26,20 +26,21 @@ public class HTTPServer implements Application {
     }
 
     private void writeResponse(String path, ReadableWriteable readerWriter) throws IOException {
-        Response response;
+        Response response = route(path);
+        readerWriter.writeLine(response.toString());
+    }
 
+    private Response route(String path) {
         switch (path) {
             case "/simple_get_with_body" -> {
-                response = new Response("200 OK", "Content-Length:11", "Hello world");
+                return new Response("200 OK", "Content-Length:11", "Hello world");
             }
             case "/simple_get", "/" -> {
-                response = new Response("200 OK", "Content-Length:0", "");
+                return new Response("200 OK", "Content-Length:0", "");
             }
             default -> {
-                response = new Response("404 Not Found", "Content-Length:0", "");
+                return new Response("404 Not Found", "Content-Length:0", "");
             }
         }
-
-        readerWriter.writeLine(response.toString());
     }
 }
