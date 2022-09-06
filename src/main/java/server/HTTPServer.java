@@ -15,7 +15,8 @@ public class HTTPServer implements Application {
     public void call(ReadableWriteable readerWriter) throws IOException {
         ArrayList<String> request = readRequest(readerWriter);
         String path = getPath(request);
-        writeResponse(path, readerWriter);
+        Response response = route(path);
+        readerWriter.writeLine(format(response));
     }
 
     private ArrayList<String> readRequest(ReadableWriteable readerWriter) throws IOException {
@@ -29,11 +30,6 @@ public class HTTPServer implements Application {
 
     private String getPath(ArrayList<String> request) {
         return request.get(0).split("\\s+")[1];
-    }
-
-    private void writeResponse(String path, ReadableWriteable readerWriter) throws IOException {
-        Response response = route(path);
-        readerWriter.writeLine(format(response));
     }
 
     private Response route(String path) {
