@@ -5,21 +5,27 @@ public class Response {
     private final String statusCode;
     private final String headers;
     private final String body;
-    private final String responseString;
 
-    public Response(String statusCode, String headers, String body) {
-        this.protocol = "HTTP/1.1";
+    public Response(String protocol, String statusCode, String headers, String body) {
+        this.protocol = protocol;
         this.statusCode = statusCode;
         this.headers = headers;
         this.body = body;
-        this.responseString = createResponseString();
     }
 
-    public String toString() {
-        return this.responseString;
+    public String getProtocol() {
+        return protocol;
     }
 
-    private String createResponseString() {
-        return protocol + " " + statusCode + "\r\n" + headers + "\r\n" + "\n" + body;
+    public String getStatusCode() {
+        return statusCode;
+    }
+
+    public String getHeaders() {
+        return headers;
+    }
+
+    public String getBody() {
+        return body;
     }
 }

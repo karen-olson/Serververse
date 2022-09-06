@@ -7,16 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ResponseTest {
 
     @Test
-    void itConstructsAResponseStringWithNoBody() {
-        Response response = new Response("200 OK", "Content-Length:0", "");
+    void itHasAllNecessaryFields() {
+        Response response = new Response("HTTP/1.1", "200 OK", "Content-Length:11", "Hello world");
 
-        assertEquals("HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n", response.toString());
-    }
-
-    @Test
-    void itConstructsAResponseStringWithABody() {
-        Response response = new Response("200 OK", "Content-Length:11", "Hello world");
-
-        assertEquals("HTTP/1.1 200 OK\r\nContent-Length:11\r\n\nHello world", response.toString());
+        assertEquals("HTTP/1.1", response.getProtocol());
+        assertEquals("200 OK", response.getStatusCode());
+        assertEquals("Content-Length:11", response.getHeaders());
+        assertEquals("Hello world", response.getBody());
     }
 }
