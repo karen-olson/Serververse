@@ -2,17 +2,31 @@ package server;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ResponseTest {
 
     @Test
-    void itHasAllNecessaryFields() {
+    void itWritesAFormattedResponseWithNoBody() throws IOException {
+        TestReaderWriter testReaderWriter = new TestReaderWriter();
+        Response response = new Response("HTTP/1.1", "200 OK", "Content-Length:0", "");
+
+        response.write(testReaderWriter);
+
+        assertEquals(List.of("HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n"), testReaderWriter.received());
+    }
+
+    @Test
+    void itWritesAFormattedResponseWithABody() throws IOException {
+        TestReaderWriter testReaderWriter = new TestReaderWriter();
         Response response = new Response("HTTP/1.1", "200 OK", "Content-Length:11", "Hello world");
 
-        assertEquals("HTTP/1.1", response.getProtocol());
-        assertEquals("200 OK", response.getStatusCode());
-        assertEquals("Content-Length:11", response.getHeaders());
-        assertEquals("Hello world", response.getBody());
+        response.write(testReaderWriter);
+
+        assertEquals(List.of("HTTP/1.1 200 OK\r\nContent-Length:11\r\n\nHello world"), testReaderWriter.received());
     }
+    
 }

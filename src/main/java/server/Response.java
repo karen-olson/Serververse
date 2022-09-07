@@ -1,5 +1,7 @@
 package server;
 
+import java.io.IOException;
+
 public class Response {
     private final String protocol;
     private final String statusCode;
@@ -13,19 +15,11 @@ public class Response {
         this.body = body;
     }
 
-    public String getProtocol() {
-        return protocol;
+    public void write(ReadableWriteable readerWriter) throws IOException {
+        readerWriter.writeLine(responseString());
     }
 
-    public String getStatusCode() {
-        return statusCode;
-    }
-
-    public String getHeaders() {
-        return headers;
-    }
-
-    public String getBody() {
-        return body;
+    private String responseString() {
+        return this.protocol + " " + this.statusCode + "\r\n" + this.headers + "\r\n" + "\n" + this.body;
     }
 }

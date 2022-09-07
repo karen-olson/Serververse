@@ -16,7 +16,7 @@ public class HTTPServer implements Application {
         ArrayList<String> request = readRequest(readerWriter);
         String path = getPath(request);
         Response response = route(path);
-        readerWriter.writeLine(format(response));
+        response.write(readerWriter);
     }
 
     private ArrayList<String> readRequest(ReadableWriteable readerWriter) throws IOException {
@@ -45,8 +45,5 @@ public class HTTPServer implements Application {
             }
         }
     }
-
-    private String format(Response response) {
-        return response.getProtocol() + " " + response.getStatusCode() + "\r\n" + response.getHeaders() + "\r\n" + "\n" + response.getBody();
-    }
+    
 }
