@@ -25,8 +25,9 @@ public class SocketReaderWriter implements ReadableWriteable {
     }
 
     @Override
-    public void writeLine(String message) throws IOException {
-        writer.println(message);
+    public void writeLine(String message) {
+        writer.print(message);
+        writer.flush();
     }
 
     @Override
