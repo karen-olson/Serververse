@@ -23,7 +23,7 @@ public class HTTPServerTest {
     }
 
     @Test
-    void itReturns200OKForSimpleGet() throws IOException {
+    void itRespondsToSimpleGet() throws IOException {
         String testRequest = "GET /simple_get HTTP/1.1\r\nContent-Length:0\r\n";
         TestReaderWriter testReaderWriter = new TestReaderWriter()
                 .send(testRequest);
@@ -36,7 +36,7 @@ public class HTTPServerTest {
     }
 
     @Test
-    void itReturns200OKHelloWorldForSimpleGetWithBody() throws IOException {
+    void itRespondsToSimpleGetWithBody() throws IOException {
         String testRequest = "GET /simple_get_with_body HTTP/1.1\r\nContent-Length:0\r\n";
         TestReaderWriter testReaderWriter = new TestReaderWriter()
                 .send(testRequest);
