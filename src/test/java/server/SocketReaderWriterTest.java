@@ -10,13 +10,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SocketReaderWriterTest {
 
     @Test
+    void itPreservesWhitespaceCharacters() throws IOException {
+        TestSocket testSocket = new TestSocket("Hello\r\nBeautiful\r\n\r\nWorld");
+        ReadableWriteable socketReaderWriter = new SocketReaderWriter(testSocket);
+
+        String message = socketReaderWriter.readAll();
+
+        assertEquals("Hello\r\nBeautiful\r\n\r\nWorld", message);
+    }
+
+    @Test
     void readsALineOfText() throws IOException {
         TestSocket testSocket = new TestSocket("Hello\n");
         ReadableWriteable socketReaderWriter = new SocketReaderWriter(testSocket);
 
-        String message = socketReaderWriter.readLine();
+        String message = socketReaderWriter.readAll();
 
-        assertEquals("Hello", message);
+        assertEquals("Hello\n", message);
     }
 
     @Test
@@ -33,11 +43,14 @@ public class SocketReaderWriterTest {
 
     @Test
     void createsOnlyOneReaderAndOneWriter() throws IOException {
-        TestSocket testSocket = new TestSocket("First input line\nSecond input line\n");
+        TestSocket testSocket = new TestSocket(
+                "First input line\n" +
+                        "Second input line\n"
+        );
         ReadableWriteable socketReaderWriter = new SocketReaderWriter(testSocket);
 
-        socketReaderWriter.readLine();
-        socketReaderWriter.readLine();
+        socketReaderWriter.readAll();
+        socketReaderWriter.readAll();
         socketReaderWriter.writeLine("");
         socketReaderWriter.writeLine("");
 

@@ -31,6 +31,18 @@ public class SocketReaderWriter implements ReadableWriteable {
     }
 
     @Override
+    public String readAll() throws IOException {
+        int character;
+        StringBuilder response = new StringBuilder();
+
+        while ((character = reader.read()) != -1) {
+            response.append((char) character);
+        }
+
+        return response.toString();
+    }
+
+    @Override
     public void close() throws IOException {
         socket.close();
     }

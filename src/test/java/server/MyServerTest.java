@@ -96,6 +96,11 @@ public class MyServerTest {
         }
 
         @Override
+        public String readAll() {
+            return null;
+        }
+
+        @Override
         public void close() {
             events.add("Connection closed");
         }

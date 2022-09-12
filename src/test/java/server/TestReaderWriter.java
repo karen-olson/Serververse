@@ -22,6 +22,11 @@ public class TestReaderWriter implements ReadableWriteable {
     }
 
     @Override
+    public String readAll() {
+        return null;
+    }
+
+    @Override
     public void close() {
 
     }
