@@ -24,11 +24,7 @@ public class HTTPServer implements Application {
     }
 
     private String readRequest(ReadableWriteable readerWriter) throws IOException {
-        String request = "";
-        request += readerWriter.readLine() + "\r\n";
-        request += readerWriter.readLine() + "\r\n\r\n";
-
-        return request;
+        return readerWriter.readAll();
     }
 
     private Response route(String path) {
