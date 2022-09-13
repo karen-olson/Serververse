@@ -20,32 +20,6 @@ public class SocketReaderWriter implements ReadableWriteable {
     }
 
     @Override
-    public String readAll() throws IOException {
-        int character;
-        StringBuilder request = new StringBuilder();
-
-        while ((character = reader.read()) != -1) {
-            request.append((char) character);
-            System.out.println("character: " + character);
-        }
-
-        System.out.println("request: " + request);
-
-        return request.toString();
-
-//        char[] buff = new char[1024];
-//        int read;
-//        StringBuilder request = new StringBuilder();
-//        while ((read = reader.read(buff)) != (-1)) {
-//            request.append(buff, 0, read);
-//            System.out.println("read: " + read);
-//            System.out.println("buff lengths: " + buff.length);
-//        }
-//
-//        return request.toString();
-    }
-
-    @Override
     public String readLine() throws IOException {
         return reader.readLine();
     }

@@ -10,23 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SocketReaderWriterTest {
 
     @Test
-    void itPreservesWhitespaceCharacters() throws IOException {
-        TestSocket testSocket = new TestSocket("Hello\r\nBeautiful\r\n\r\nWorld");
-        ReadableWriteable socketReaderWriter = new SocketReaderWriter(testSocket);
-
-        String message = socketReaderWriter.readAll();
-
-        assertEquals("Hello\r\nBeautiful\r\n\r\nWorld", message);
-    }
-
-    @Test
     void readsALineOfText() throws IOException {
         TestSocket testSocket = new TestSocket("Hello\n");
         ReadableWriteable socketReaderWriter = new SocketReaderWriter(testSocket);
 
-        String message = socketReaderWriter.readAll();
+        String message = socketReaderWriter.readLine();
 
-        assertEquals("Hello\n", message);
+        assertEquals("Hello", message);
     }
 
     @Test
@@ -49,8 +39,8 @@ public class SocketReaderWriterTest {
         );
         ReadableWriteable socketReaderWriter = new SocketReaderWriter(testSocket);
 
-        socketReaderWriter.readAll();
-        socketReaderWriter.readAll();
+        socketReaderWriter.readLine();
+        socketReaderWriter.readLine();
         socketReaderWriter.writeLine("");
         socketReaderWriter.writeLine("");
 
