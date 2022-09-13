@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-class RequestLineParser {
+public class RequestLineParser {
 
     public RequestLine parse(ReadableWriteable readableWriteable) throws IOException {
         String line = readableWriteable.readLine();

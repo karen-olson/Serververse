@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-class HeadersParser {
+public class HeadersParser {
     public Map<String, String> parse(ReadableWriteable readableWriteable) throws IOException {
         String rawHeader = readableWriteable.readLine();
         Map<String, String> headers = new java.util.HashMap<>(Map.of());
