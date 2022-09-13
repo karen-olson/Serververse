@@ -23,7 +23,7 @@ public class NewRequestParserTest {
         HeadersParser headersParser = new HeadersParser();
 
         NewRequest request = new NewRequestParser(requestLineParser, headersParser)
-                .parse(readableWriteable);
+                .call(readableWriteable);
 
         NewRequest expectedRequest = new NewRequest(
                 "GET",

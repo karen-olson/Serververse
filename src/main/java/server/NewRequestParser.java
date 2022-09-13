@@ -14,7 +14,7 @@ public class NewRequestParser {
         this.headersParser = headersParser;
     }
 
-    public NewRequest parse(ReadableWriteable readableWriteable) throws IOException {
+    public NewRequest call(ReadableWriteable readableWriteable) throws IOException {
         RequestLineParser.RequestLine requestLine = requestLineParser.parse(readableWriteable);
         Map<String, String> headers = headersParser.parse(readableWriteable);
 
