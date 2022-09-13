@@ -18,7 +18,7 @@ public class HTTPServerMain {
             RequestParser requestParser = new RequestParser(new RequestLineParser(), new HeadersParser());
             Application httpServer = new HTTPServer(requestParser);
 
-            new MyServer(infiniteLooper, portListener).serve(httpServer);
+            new Server(infiniteLooper, portListener).serve(httpServer);
         }
     }
 }

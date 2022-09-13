@@ -16,7 +16,7 @@ public class EchoServerMain {
             };
             Application echoServer = new EchoServer();
 
-            new MyServer(infiniteLooper, portListener).serve(echoServer);
+            new Server(infiniteLooper, portListener).serve(echoServer);
         }
     }
 }
