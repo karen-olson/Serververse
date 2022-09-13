@@ -20,7 +20,7 @@ class HeadersParser {
     }
 
     private boolean additionalHeadersRemain(String rawHeader) {
-        return !rawHeader.equals(NewRequestParser.CRLF);
+        return !rawHeader.equals(RequestParser.CRLF);
     }
 
     private Header parseHeader(String header) {

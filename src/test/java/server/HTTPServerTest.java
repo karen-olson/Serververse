@@ -17,7 +17,7 @@ public class HTTPServerTest {
         TestReaderWriter testReaderWriter = new TestReaderWriter()
                 .send(testRequestString);
 
-        NewRequest testRequest = new NewRequest(
+        Request testRequest = new Request(
                 "GET",
                 "/",
                 Map.of(
@@ -39,7 +39,7 @@ public class HTTPServerTest {
         TestReaderWriter testReaderWriter = new TestReaderWriter()
                 .send(testRequestString);
 
-        NewRequest testRequest = new NewRequest(
+        Request testRequest = new Request(
                 "GET",
                 "/simple_get",
                 Map.of(
@@ -61,7 +61,7 @@ public class HTTPServerTest {
         TestReaderWriter testReaderWriter = new TestReaderWriter()
                 .send(testRequestString);
 
-        NewRequest testRequest = new NewRequest(
+        Request testRequest = new Request(
                 "GET",
                 "/simple_get_with_body",
                 Map.of(
@@ -83,7 +83,7 @@ public class HTTPServerTest {
         TestReaderWriter testReaderWriter = new TestReaderWriter()
                 .send(testRequestString);
 
-        NewRequest testRequest = new NewRequest(
+        Request testRequest = new Request(
                 "GET",
                 "/nonexistent_resource",
                 Map.of(
@@ -107,14 +107,14 @@ public class HTTPServerTest {
                 .send(test200RequestString)
                 .send(test404RequestString);
 
-        NewRequest test200Request = new NewRequest(
+        Request test200Request = new Request(
                 "GET",
                 "/",
                 Map.of(
                         "Content-Length",
                         "0")
         );
-        NewRequest test404Request = new NewRequest(
+        Request test404Request = new Request(
                 "GET",
                 "/nonexistent_resource",
                 Map.of(
@@ -122,7 +122,7 @@ public class HTTPServerTest {
                 )
         );
 
-        ArrayList<NewRequest> testRequests = new ArrayList<>();
+        ArrayList<Request> testRequests = new ArrayList<>();
         testRequests.add(test200Request);
         testRequests.add(test404Request);
 
@@ -139,27 +139,27 @@ public class HTTPServerTest {
     }
 
     static class TestRequestParser implements RequestParsable {
-        private final NewRequest request;
+        private final Request request;
 
-        public TestRequestParser(NewRequest request) {
+        public TestRequestParser(Request request) {
             this.request = request;
         }
 
         @Override
-        public NewRequest call(ReadableWriteable readableWriteable) {
+        public Request call(ReadableWriteable readableWriteable) {
             return request;
         }
     }
 
     private static class ParsesRepeatedRequests implements RequestParsable {
-        private final List<NewRequest> requests;
+        private final List<Request> requests;
 
-        public ParsesRepeatedRequests(ArrayList<NewRequest> requests) {
+        public ParsesRepeatedRequests(ArrayList<Request> requests) {
             this.requests = requests;
         }
 
         @Override
-        public NewRequest call(ReadableWriteable readableWriteable) {
+        public Request call(ReadableWriteable readableWriteable) {
             return requests.remove(0);
         }
     }

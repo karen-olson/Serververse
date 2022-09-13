@@ -14,7 +14,7 @@ public class HTTPServer implements Application {
 
     @Override
     public void call(ReadableWriteable readerWriter) throws IOException {
-        NewRequest request = requestParser.call(readerWriter);
+        Request request = requestParser.call(readerWriter);
         Response response = route(request.path());
         response.write(readerWriter);
     }

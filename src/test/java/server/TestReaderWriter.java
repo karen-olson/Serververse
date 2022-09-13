@@ -1,5 +1,6 @@
 package server;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class TestReaderWriter implements ReadableWriteable {
     }
 
     @Override
-    public String readAll() {
+    public String readAll() throws IOException {
         return null;
     }
 

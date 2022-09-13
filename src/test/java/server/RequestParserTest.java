@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class NewRequestParserTest {
+public class RequestParserTest {
 
     @Test
     void itParsesARequestWithNoBody() throws IOException {
@@ -22,10 +22,10 @@ public class NewRequestParserTest {
         RequestLineParser requestLineParser = new RequestLineParser();
         HeadersParser headersParser = new HeadersParser();
 
-        NewRequest request = new NewRequestParser(requestLineParser, headersParser)
+        Request request = new RequestParser(requestLineParser, headersParser)
                 .call(readableWriteable);
 
-        NewRequest expectedRequest = new NewRequest(
+        Request expectedRequest = new Request(
                 "GET",
                 "/path/to/resource",
                 Map.of("Content-Length", "0",
