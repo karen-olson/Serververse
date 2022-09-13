@@ -1,6 +1,8 @@
 package server;
 
+import java.io.IOException;
+
 public interface RequestParsable {
 
-    Request call(String rawRequest);
+    NewRequest call(ReadableWriteable readableWriteable) throws IOException;
 }

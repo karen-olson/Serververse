@@ -14,17 +14,9 @@ public class HTTPServer implements Application {
 
     @Override
     public void call(ReadableWriteable readerWriter) throws IOException {
-        Request request = requestParser.call(readRequest(readerWriter));
-        Response response = route(getPath(request));
+        NewRequest request = requestParser.call(readerWriter);
+        Response response = route(request.path());
         response.write(readerWriter);
-    }
-
-    private String getPath(Request request) {
-        return request.requestLine().split("\\s")[1];
-    }
-
-    private String readRequest(ReadableWriteable readerWriter) throws IOException {
-        return readerWriter.readAll();
     }
 
     private Response route(String path) {

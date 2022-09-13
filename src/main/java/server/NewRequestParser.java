@@ -3,7 +3,7 @@ package server;
 import java.io.IOException;
 import java.util.Map;
 
-public class NewRequestParser {
+public class NewRequestParser implements RequestParsable {
 
     public static final String CRLF = "\r\n";
     private final RequestLineParser requestLineParser;

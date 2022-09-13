@@ -17,12 +17,12 @@ public class HTTPServerTest {
         TestReaderWriter testReaderWriter = new TestReaderWriter()
                 .send(testRequestString);
 
-        Request testRequest = new Request(
-                "GET / HTTP/1.1",
+        NewRequest testRequest = new NewRequest(
+                "GET",
+                "/",
                 Map.of(
                         "Content-Length",
-                        "0"),
-                ""
+                        "0")
         );
         RequestParsable testRequestParser = new TestRequestParser(testRequest);
 
@@ -39,12 +39,12 @@ public class HTTPServerTest {
         TestReaderWriter testReaderWriter = new TestReaderWriter()
                 .send(testRequestString);
 
-        Request testRequest = new Request(
-                "GET /simple_get HTTP/1.1",
+        NewRequest testRequest = new NewRequest(
+                "GET",
+                "/simple_get",
                 Map.of(
                         "Content-Length",
-                        "0"),
-                ""
+                        "0")
         );
         RequestParsable testRequestParser = new TestRequestParser(testRequest);
 
@@ -61,12 +61,12 @@ public class HTTPServerTest {
         TestReaderWriter testReaderWriter = new TestReaderWriter()
                 .send(testRequestString);
 
-        Request testRequest = new Request(
-                "GET /simple_get_with_body HTTP/1.1",
+        NewRequest testRequest = new NewRequest(
+                "GET",
+                "/simple_get_with_body",
                 Map.of(
                         "Content-Length",
-                        "0"),
-                ""
+                        "0")
         );
         RequestParsable testRequestParser = new TestRequestParser(testRequest);
 
@@ -83,12 +83,12 @@ public class HTTPServerTest {
         TestReaderWriter testReaderWriter = new TestReaderWriter()
                 .send(testRequestString);
 
-        Request testRequest = new Request(
-                "GET /nonexistent_resource HTTP/1.1",
+        NewRequest testRequest = new NewRequest(
+                "GET",
+                "/nonexistent_resource",
                 Map.of(
                         "Content-Length",
-                        "0"),
-                ""
+                        "0")
         );
         RequestParsable testRequestParser = new TestRequestParser(testRequest);
 
@@ -107,22 +107,22 @@ public class HTTPServerTest {
                 .send(test200RequestString)
                 .send(test404RequestString);
 
-        Request test200Request = new Request(
-                "GET / HTTP/1.1",
+        NewRequest test200Request = new NewRequest(
+                "GET",
+                "/",
                 Map.of(
                         "Content-Length",
-                        "0"),
-                ""
+                        "0")
         );
-        Request test404Request = new Request(
-                "GET /nonexistent_resource HTTP/1.1",
+        NewRequest test404Request = new NewRequest(
+                "GET",
+                "/nonexistent_resource",
                 Map.of(
-                        "Content-Length",
-                        "0"),
-                ""
+                        "Content-Length", "0"
+                )
         );
 
-        ArrayList<Request> testRequests = new ArrayList<>();
+        ArrayList<NewRequest> testRequests = new ArrayList<>();
         testRequests.add(test200Request);
         testRequests.add(test404Request);
 
@@ -138,28 +138,28 @@ public class HTTPServerTest {
         ), testReaderWriter.received());
     }
 
-    class TestRequestParser implements RequestParsable {
-        private final Request request;
+    static class TestRequestParser implements RequestParsable {
+        private final NewRequest request;
 
-        public TestRequestParser(Request request) {
+        public TestRequestParser(NewRequest request) {
             this.request = request;
         }
 
         @Override
-        public Request call(String rawRequest) {
+        public NewRequest call(ReadableWriteable readableWriteable) {
             return request;
         }
     }
 
-    private class ParsesRepeatedRequests implements RequestParsable {
-        private final List<Request> requests;
+    private static class ParsesRepeatedRequests implements RequestParsable {
+        private final List<NewRequest> requests;
 
-        public ParsesRepeatedRequests(ArrayList<Request> requests) {
+        public ParsesRepeatedRequests(ArrayList<NewRequest> requests) {
             this.requests = requests;
         }
 
         @Override
-        public Request call(String rawRequest) {
+        public NewRequest call(ReadableWriteable readableWriteable) {
             return requests.remove(0);
         }
     }

@@ -3,7 +3,7 @@ package server;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestParser implements RequestParsable {
+public class RequestParser {
     private final String lineSeparator = "\r\n";
 
     public Request call(String rawRequest) {
