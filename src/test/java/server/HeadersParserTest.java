@@ -39,4 +39,28 @@ public class HeadersParserTest {
                 "API-Key", apiKey.toString()
         ), headers);
     }
+
+    @Test
+    void itParsesHeaderSectionThatEndsWithCRLF() throws IOException {
+        ReadableWriteable readableWriteable = new TestReaderWriter()
+                .send("Content-Length: 0\r\n")
+                .send("\r\n");
+
+        Map<String, String> header = new HeadersParser()
+                .parse(readableWriteable);
+
+        assertEquals(Map.of("Content-Length", "0"), header);
+    }
+
+    @Test
+    void itParsesHeaderSectionThatEndsWithEmptyString() throws IOException {
+        ReadableWriteable readableWriteable = new TestReaderWriter()
+                .send("Content-Length: 0\r\n")
+                .send("");
+
+        Map<String, String> header = new HeadersParser()
+                .parse(readableWriteable);
+
+        assertEquals(Map.of("Content-Length", "0"), header);
+    }
 }
