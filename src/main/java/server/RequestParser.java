@@ -5,7 +5,6 @@ import java.util.Map;
 
 public class RequestParser implements RequestParsable {
 
-    public static final String CRLF = "\r\n";
     private final RequestLineParser requestLineParser;
     private final HeadersParser headersParser;
 

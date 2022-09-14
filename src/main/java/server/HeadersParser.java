@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 public class HeadersParser {
+
+    public static final String CRLF = "\r\n";
+
     public Map<String, String> parse(ReadableWriteable readableWriteable) throws IOException {
         String rawHeader = readableWriteable.readLine();
         Map<String, String> headers = new java.util.HashMap<>(Map.of());
@@ -20,7 +23,7 @@ public class HeadersParser {
     }
 
     private boolean additionalHeadersRemain(String rawHeader) {
-        boolean isCRLF = rawHeader.equals(RequestParser.CRLF);
+        boolean isCRLF = rawHeader.equals(CRLF);
         boolean isEmptyString = rawHeader.equals("");
 
         return !(isCRLF || isEmptyString);
