@@ -26,12 +26,14 @@ public class HTTPServerTest {
                         "0")
         );
         RequestParsable testRequestParser = new TestRequestParser(testRequest);
+        Response testResponse = new Response("HTTP/1.1", "200 OK", "Content-Length:0", "");
+        Routable testRouter = new TestRouter(testResponse);
 
-        String testResponse = "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n";
-        ResponseWriteable testResponseWriter = new TestResponseWriter(testResponse);
+        String testResponseOutput = "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n";
+        ResponseWriteable testResponseWriter = new TestResponseWriter(testResponseOutput);
 
 
-        new HTTPServer(testRequestParser, testResponseWriter)
+        new HTTPServer(testRequestParser, testRouter, testResponseWriter)
                 .call(testReaderWriter);
 
 
@@ -56,16 +58,19 @@ public class HTTPServerTest {
         );
         RequestParsable testRequestParser = new TestRequestParser(testRequest);
 
-        String testResponse = "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n";
-        ResponseWriteable testResponseWriter = new TestResponseWriter(testResponse);
+        Response testResponse = new Response("HTTP/1.1", "200 OK", "Content-Length:0", "");
+        Routable testRouter = new TestRouter(testResponse);
+
+        String testResponseOutput = "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\r\n";
+        ResponseWriteable testResponseWriter = new TestResponseWriter(testResponseOutput);
 
 
-        new HTTPServer(testRequestParser, testResponseWriter)
+        new HTTPServer(testRequestParser, testRouter, testResponseWriter)
                 .call(testReaderWriter);
 
 
         assertEquals(List.of(
-                "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n"
+                "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\r\n"
         ), testReaderWriter.received());
     }
 
@@ -85,11 +90,14 @@ public class HTTPServerTest {
         );
         RequestParsable testRequestParser = new TestRequestParser(testRequest);
 
-        String testResponse = "HTTP/1.1 200 OK\r\nContent-Length:11\r\n\nHello world";
-        ResponseWriteable testResponseWriter = new TestResponseWriter(testResponse);
+        Response testResponse = new Response("HTTP/1.1", "200 OK", "Content-Length:11", "Hello world");
+        Routable testRouter = new TestRouter(testResponse);
+
+        String testResponseOutput = "HTTP/1.1 200 OK\r\nContent-Length:11\r\n\nHello world";
+        ResponseWriteable testResponseWriter = new TestResponseWriter(testResponseOutput);
 
 
-        new HTTPServer(testRequestParser, testResponseWriter)
+        new HTTPServer(testRequestParser, testRouter, testResponseWriter)
                 .call(testReaderWriter);
 
 
@@ -114,11 +122,14 @@ public class HTTPServerTest {
         );
         RequestParsable testRequestParser = new TestRequestParser(testRequest);
 
-        String testResponse = "HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n\n";
-        ResponseWriteable testResponseWriter = new TestResponseWriter(testResponse);
+        Response testResponse = new Response("HTTP/1.1", "404 Not Found", "Content-Length:0", "");
+        Routable testRouter = new TestRouter(testResponse);
+
+        String testResponseOutput = "HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n\n";
+        ResponseWriteable testResponseWriter = new TestResponseWriter(testResponseOutput);
 
 
-        new HTTPServer(testRequestParser, testResponseWriter)
+        new HTTPServer(testRequestParser, testRouter, testResponseWriter)
                 .call(testReaderWriter);
 
 
@@ -144,10 +155,13 @@ public class HTTPServerTest {
 
         RequestParsable testRequestParser = new TestRequestParser(testRequest);
 
-        String testResponse = "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\r\n";
-        ResponseWriteable testResponseWriter = new TestResponseWriter(testResponse);
+        Response testResponse = new Response("HTTP/1.1", "200 OK", "Content-Length:0", "");
+        Routable testRouter = new TestRouter(testResponse);
 
-        new HTTPServer(testRequestParser, testResponseWriter)
+        String testResponseOutput = "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\r\n";
+        ResponseWriteable testResponseWriter = new TestResponseWriter(testResponseOutput);
+
+        new HTTPServer(testRequestParser, testRouter, testResponseWriter)
                 .call(testReaderWriter);
 
 
@@ -186,6 +200,9 @@ public class HTTPServerTest {
         testRequests.add(test404Request);
         RequestParsable testRequestParser = new ParsesRepeatedRequests(testRequests);
 
+        Response testResponse = new Response("HTTP/1.1", "200 OK", "Content-Length:0", "");
+        Routable testRouter = new TestRouter(testResponse);
+
         String test200Response = "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n";
         String test404Response = "HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n\n";
 
@@ -194,7 +211,7 @@ public class HTTPServerTest {
         testResponses.add(test404Response);
         ResponseWriteable writesRepeatedResponses = new WritesRepeatedResponses(testResponses);
 
-        HTTPServer httpServer = new HTTPServer(testRequestParser, writesRepeatedResponses);
+        HTTPServer httpServer = new HTTPServer(testRequestParser, testRouter, writesRepeatedResponses);
 
 
         httpServer.call(testReaderWriter);
@@ -246,6 +263,14 @@ public class HTTPServerTest {
         @Override
         public void call(ReadableWriteable readerWriter, Response response) throws IOException {
             readerWriter.writeLine(testResponse);
+        }
+    }
+
+    private record TestRouter(Response response) implements Routable {
+
+        @Override
+        public Response call(Request request) {
+            return this.response;
         }
     }
 }

@@ -16,8 +16,9 @@ public class HTTPServerMain {
             };
 
             RequestParser requestParser = new RequestParser(new RequestLineParser(), new HeadersParser());
+            Routable router = new Router();
             ResponseWriteable responseWriter = new ResponseWriter();
-            Application httpServer = new HTTPServer(requestParser, responseWriter);
+            Application httpServer = new HTTPServer(requestParser, router, responseWriter);
 
             new Server(infiniteLooper, portListener).serve(httpServer);
         }
