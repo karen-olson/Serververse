@@ -1,11 +1,11 @@
 package server;
 
-public class MyServer {
+public class Server {
 
     private final Loopable looper;
     private final PortListenable portListener;
 
-    public MyServer(Loopable looper, PortListenable portListener) {
+    public Server(Loopable looper, PortListenable portListener) {
         this.looper = looper;
         this.portListener = portListener;
     }

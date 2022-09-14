@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MyServerTest {
+public class ServerTest {
     @Test
     void itGivesApplicationASocketConnection() throws Exception {
         TestApplication app = new TestApplication();
@@ -15,7 +15,7 @@ public class MyServerTest {
         TestReaderWriter testReaderWriter = new TestReaderWriter();
         TestPortListener testPortListener = new TestPortListener(testReaderWriter);
 
-        new MyServer(doItOnce, testPortListener).serve(app);
+        new Server(doItOnce, testPortListener).serve(app);
 
         assertEquals(List.of(
                 "App was called",
@@ -30,7 +30,7 @@ public class MyServerTest {
         ReaderWriterLog readerWriterLog = new ReaderWriterLog();
         TestPortListener testPortListener = new TestPortListener(readerWriterLog);
 
-        new MyServer(doItOnce, testPortListener).serve(app);
+        new Server(doItOnce, testPortListener).serve(app);
 
         assertEquals(List.of(
                 "Connection closed"
@@ -44,7 +44,7 @@ public class MyServerTest {
         TestReaderWriter testReaderWriter = new TestReaderWriter();
         TestPortListener testPortListener = new TestPortListener(testReaderWriter);
 
-        new MyServer(doItTwice, testPortListener).serve(app);
+        new Server(doItTwice, testPortListener).serve(app);
 
         assertEquals(List.of(
                 "App was called",
