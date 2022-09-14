@@ -17,12 +17,12 @@ public class HTTPServer implements Application {
     @Override
     public void call(ReadableWriteable readerWriter) throws IOException {
         Request request = requestParser.call(readerWriter);
-        Response response = route(request.path());
+        Response response = route(request);
         responseWriter.call(readerWriter, response);
     }
 
-    private Response route(String path) {
-        switch (path) {
+    private Response route(Request request) {
+        switch (request.path()) {
             case "/simple_get_with_body" -> {
                 return new Response(this.protocol, "200 OK", "Content-Length:11", "Hello world");
             }

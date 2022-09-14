@@ -128,6 +128,35 @@ public class HTTPServerTest {
     }
 
     @Test
+    void itHandlesHeadRequestToSimpleGet() throws IOException {
+        TestReaderWriter testReaderWriter = new TestReaderWriter()
+                .send("HEAD /simple_get HTTP/1.1\r\n")
+                .send("Content-Length:0")
+                .send("\r\n");
+
+        Request testRequest = new Request(
+                "HEAD",
+                "/simple_get",
+                Map.of(
+                        "Content-Length",
+                        "0")
+        );
+
+        RequestParsable testRequestParser = new TestRequestParser(testRequest);
+
+        String testResponse = "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\r\n";
+        ResponseWriteable testResponseWriter = new TestResponseWriter(testResponse);
+
+        new HTTPServer(testRequestParser, testResponseWriter)
+                .call(testReaderWriter);
+
+
+        assertEquals(List.of(
+                "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\r\n"
+        ), testReaderWriter.received());
+    }
+
+    @Test
     void itHandlesRepeatedRequests() throws IOException {
         TestReaderWriter testReaderWriter = new TestReaderWriter()
                 .send("GET / HTTP/1.1\r\n")
