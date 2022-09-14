@@ -88,4 +88,43 @@ public class RouterTest {
         assertEquals(expectedResponse, response);
     }
 
+    @Test
+    void itHandlesAHEADRequestToSimpleGet() {
+        Request testRequest = new Request(
+                "HEAD",
+                "/simple_get",
+                Map.of("Content-Length", "0")
+        );
+
+        Response response = new Router()
+                .call(testRequest);
+
+        Response expectedResponse = new Response(
+                "HTTP/1.1",
+                "200 OK",
+                "Content-Length:0",
+                ""
+        );
+        assertEquals(expectedResponse, response);
+    }
+
+    @Test
+    void itHandlesAHEADRequestToHeadRequest() {
+        Request testRequest = new Request(
+                "HEAD",
+                "/head_request",
+                Map.of("Content-Length", "0")
+        );
+
+        Response response = new Router()
+                .call(testRequest);
+
+        Response expectedResponse = new Response(
+                "HTTP/1.1",
+                "200 OK",
+                "Content-Length:0",
+                ""
+        );
+        assertEquals(expectedResponse, response);
+    }
 }

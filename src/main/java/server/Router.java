@@ -12,6 +12,7 @@ public class Router implements Routable {
         table.put("/", new Response(this.protocol, "200 OK", "Content-Length:0", ""));
         table.put("/simple_get", new Response(this.protocol, "200 OK", "Content-Length:0", ""));
         table.put("/simple_get_with_body", new Response(this.protocol, "200 OK", "Content-Length:11", "Hello world"));
+        table.put("/head_request", new Response(this.protocol, "200 OK", "Content-Length:0", ""));
     }
 
     public Response call(Request request) {
