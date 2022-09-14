@@ -27,7 +27,13 @@ public class HTTPServerTest {
         );
         RequestParsable testRequestParser = new TestRequestParser(testRequest);
 
-        new HTTPServer(testRequestParser).call(testReaderWriter);
+        String testResponse = "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n";
+        ResponseWriteable testResponseWriter = new TestResponseWriter(testResponse);
+
+
+        new HTTPServer(testRequestParser, testResponseWriter)
+                .call(testReaderWriter);
+
 
         assertEquals(List.of(
                 "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n"
@@ -50,7 +56,13 @@ public class HTTPServerTest {
         );
         RequestParsable testRequestParser = new TestRequestParser(testRequest);
 
-        new HTTPServer(testRequestParser).call(testReaderWriter);
+        String testResponse = "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n";
+        ResponseWriteable testResponseWriter = new TestResponseWriter(testResponse);
+
+
+        new HTTPServer(testRequestParser, testResponseWriter)
+                .call(testReaderWriter);
+
 
         assertEquals(List.of(
                 "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n"
@@ -73,7 +85,13 @@ public class HTTPServerTest {
         );
         RequestParsable testRequestParser = new TestRequestParser(testRequest);
 
-        new HTTPServer(testRequestParser).call(testReaderWriter);
+        String testResponse = "HTTP/1.1 200 OK\r\nContent-Length:11\r\n\nHello world";
+        ResponseWriteable testResponseWriter = new TestResponseWriter(testResponse);
+
+
+        new HTTPServer(testRequestParser, testResponseWriter)
+                .call(testReaderWriter);
+
 
         assertEquals(List.of(
                 "HTTP/1.1 200 OK\r\nContent-Length:11\r\n\nHello world"
@@ -96,7 +114,13 @@ public class HTTPServerTest {
         );
         RequestParsable testRequestParser = new TestRequestParser(testRequest);
 
-        new HTTPServer(testRequestParser).call(testReaderWriter);
+        String testResponse = "HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n\n";
+        ResponseWriteable testResponseWriter = new TestResponseWriter(testResponse);
+
+
+        new HTTPServer(testRequestParser, testResponseWriter)
+                .call(testReaderWriter);
+
 
         assertEquals(List.of(
                 "HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n\n"
@@ -131,12 +155,22 @@ public class HTTPServerTest {
         ArrayList<Request> testRequests = new ArrayList<>();
         testRequests.add(test200Request);
         testRequests.add(test404Request);
-
         RequestParsable testRequestParser = new ParsesRepeatedRequests(testRequests);
 
-        HTTPServer httpServer = new HTTPServer(testRequestParser);
+        String test200Response = "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n";
+        String test404Response = "HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n\n";
+
+        ArrayList<String> testResponses = new ArrayList<>();
+        testResponses.add(test200Response);
+        testResponses.add(test404Response);
+        ResponseWriteable writesRepeatedResponses = new WritesRepeatedResponses(testResponses);
+
+        HTTPServer httpServer = new HTTPServer(testRequestParser, writesRepeatedResponses);
+
+
         httpServer.call(testReaderWriter);
         httpServer.call(testReaderWriter);
+
 
         assertEquals(List.of(
                 "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\n",
@@ -167,6 +201,22 @@ public class HTTPServerTest {
         @Override
         public Request call(ReadableWriteable readableWriteable) {
             return requests.remove(0);
+        }
+    }
+
+    private record WritesRepeatedResponses(ArrayList<String> responses) implements ResponseWriteable {
+
+        @Override
+        public void call(ReadableWriteable readerWriter, Response response) throws IOException {
+            readerWriter.writeLine(responses.remove(0));
+        }
+    }
+
+    private record TestResponseWriter(String testResponse) implements ResponseWriteable {
+
+        @Override
+        public void call(ReadableWriteable readerWriter, Response response) throws IOException {
+            readerWriter.writeLine(testResponse);
         }
     }
 }
