@@ -13,9 +13,10 @@ public class HTTPServerTest {
 
     @Test
     void itReturns200OKForExistingResource() throws IOException {
-        String testRequestString = "GET / HTTP/1.1\r\nContent-Length:0\r\n";
         TestReaderWriter testReaderWriter = new TestReaderWriter()
-                .send(testRequestString);
+                .send("GET / HTTP/1.1\r\n")
+                .send("Content-Length:0")
+                .send("\r\n");
 
         Request testRequest = new Request(
                 "GET",
@@ -35,9 +36,10 @@ public class HTTPServerTest {
 
     @Test
     void itRespondsToSimpleGet() throws IOException {
-        String testRequestString = "GET /simple_get HTTP/1.1\r\nContent-Length:0\r\n";
         TestReaderWriter testReaderWriter = new TestReaderWriter()
-                .send(testRequestString);
+                .send("GET /simple_get HTTP/1.1\r\n")
+                .send("Content-Length:0")
+                .send("\r\n");
 
         Request testRequest = new Request(
                 "GET",
@@ -57,9 +59,10 @@ public class HTTPServerTest {
 
     @Test
     void itRespondsToSimpleGetWithBody() throws IOException {
-        String testRequestString = "GET /simple_get_with_body HTTP/1.1\r\nContent-Length:0\r\n";
         TestReaderWriter testReaderWriter = new TestReaderWriter()
-                .send(testRequestString);
+                .send("GET /simple_get_with_body HTTP/1.1\r\n")
+                .send("Content-Length:0")
+                .send("\r\n");
 
         Request testRequest = new Request(
                 "GET",
@@ -79,9 +82,10 @@ public class HTTPServerTest {
 
     @Test
     void itReturns404NotFoundForNonexistentResource() throws IOException {
-        String testRequestString = "GET /nonexistent_resource HTTP/1.1\r\nContent-Length:0\r\n";
         TestReaderWriter testReaderWriter = new TestReaderWriter()
-                .send(testRequestString);
+                .send("GET /nonexistent_resource HTTP/1.1\r\n")
+                .send("Content-Length:0")
+                .send("\r\n");
 
         Request testRequest = new Request(
                 "GET",
@@ -101,11 +105,13 @@ public class HTTPServerTest {
 
     @Test
     void itHandlesRepeatedRequests() throws IOException {
-        String test200RequestString = "GET / HTTP/1.1\r\nContent-Length:0\r\n";
-        String test404RequestString = "GET /nonexistent_resource HTTP/1.1\r\nContent-Length:0\r\n";
         TestReaderWriter testReaderWriter = new TestReaderWriter()
-                .send(test200RequestString)
-                .send(test404RequestString);
+                .send("GET / HTTP/1.1\r\n")
+                .send("Content-Length:0")
+                .send("\r\n")
+                .send("GET /nonexistent_resource HTTP/1.1\r\n")
+                .send("Content-Length:0")
+                .send("\r\n");
 
         Request test200Request = new Request(
                 "GET",
