@@ -3,12 +3,12 @@ package server;
 import java.io.IOException;
 
 public class HTTPServer implements Application {
-    
+
     private final RequestParsable requestParser;
     private final ResponseWriteable responseWriter;
-    private final Routable router;
+    private final Handler router;
 
-    public HTTPServer(RequestParsable requestParser, Routable router, ResponseWriteable responseWriter) {
+    public HTTPServer(RequestParsable requestParser, Handler router, ResponseWriteable responseWriter) {
         this.router = router;
         this.responseWriter = responseWriter;
         this.requestParser = requestParser;
@@ -20,5 +20,4 @@ public class HTTPServer implements Application {
         Response response = router.call(request);
         responseWriter.call(readerWriter, response);
     }
-
 }

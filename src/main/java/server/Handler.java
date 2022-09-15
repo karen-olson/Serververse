@@ -1,5 +1,5 @@
 package server;
 
-public interface Routable {
+public interface Handler {
     Response call(Request request);
 }

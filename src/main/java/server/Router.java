@@ -2,7 +2,7 @@ package server;
 
 import java.util.Map;
 
-public class Router implements Routable {
+public class Router implements Handler {
     private final String protocol = "HTTP/1.1";
 
     Map<String, Response> routes = Map.of(
