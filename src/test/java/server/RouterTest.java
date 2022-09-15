@@ -8,25 +8,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RouterTest {
 
-    Map<String, Response> testRoutes = Map.of(
-            "GET /get", new Response(
-                    "protocol",
-                    "statusCode",
-                    "Route: GET /get",
-                    ""
-            ),
-            "HEAD /get", new Response(
-                    "protocol",
-                    "statusCode",
-                    "Route: HEAD /get",
-                    ""
-            ),
-            "HEAD /head", new Response(
-                    "protocol",
-                    "statusCode",
-                    "Route: HEAD /head",
-                    ""
-            )
+    Response testGETGetResponse = new Response(
+            "protocol",
+            "statusCode",
+            "Route: GET /get",
+            ""
+    );
+
+    Response testHEADGetResponse = new Response(
+            "protocol",
+            "statusCode",
+            "Route: HEAD /get",
+            ""
+    );
+
+    Response testHEADHeadResponse = new Response(
+            "protocol",
+            "statusCode",
+            "Route: HEAD /head",
+            ""
     );
 
     Response testNotFoundResponse = new Response(
@@ -36,6 +36,11 @@ public class RouterTest {
             ""
     );
 
+    Map<String, Handler> testRoutes = Map.of(
+            "GET /get", new TestHandler(testGETGetResponse),
+            "HEAD /get", new TestHandler(testHEADGetResponse),
+            "HEAD /head", new TestHandler(testHEADHeadResponse)
+    );
 
     @Test
     void itHandlesAnExistingResource() {
@@ -76,5 +81,20 @@ public class RouterTest {
                 ""
         );
         assertEquals(expectedResponse, response);
+    }
+
+    class TestHandler implements Handler {
+
+        private final Response response;
+
+        public TestHandler(Response response) {
+
+            this.response = response;
+        }
+
+        @Override
+        public Response call(Request request) {
+            return this.response;
+        }
     }
 }
