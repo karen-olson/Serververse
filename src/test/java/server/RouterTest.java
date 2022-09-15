@@ -8,121 +8,71 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RouterTest {
 
+    Map<String, Response> testRoutes = Map.of(
+            "GET /get", new Response(
+                    "protocol",
+                    "statusCode",
+                    "Route: GET /get",
+                    ""
+            ),
+            "HEAD /get", new Response(
+                    "protocol",
+                    "statusCode",
+                    "Route: HEAD /get",
+                    ""
+            ),
+            "HEAD /head", new Response(
+                    "protocol",
+                    "statusCode",
+                    "Route: HEAD /head",
+                    ""
+            )
+    );
+
+    Response testNotFoundResponse = new Response(
+            "protocol",
+            "404 Not Found",
+            "Route: not found",
+            ""
+    );
+
+
     @Test
-    void itHandlesGet() {
+    void itHandlesAnExistingResource() {
         Request testRequest = new Request(
-                "GET",
-                "/",
-                Map.of("Content-Length", "0")
+                "HEAD",
+                "/get",
+                Map.of("Content-length", "0")
         );
 
-        Response response = new Router()
+        Response response = new Router(testRoutes, testNotFoundResponse)
                 .call(testRequest);
 
         Response expectedResponse = new Response(
-                "HTTP/1.1",
-                "200 OK",
-                "Content-Length:0",
+                "protocol",
+                "statusCode",
+                "Route: HEAD /get",
                 ""
         );
+
         assertEquals(expectedResponse, response);
     }
 
     @Test
-    void itHandlesSimpleGet() {
-        Request testRequest = new Request(
-                "GET",
-                "/simple_get",
-                Map.of("Content-Length", "0")
-        );
-
-        Response response = new Router()
-                .call(testRequest);
-
-        Response expectedResponse = new Response(
-                "HTTP/1.1",
-                "200 OK",
-                "Content-Length:0",
-                ""
-        );
-        assertEquals(expectedResponse, response);
-    }
-
-    @Test
-    void itHandlesSimpleGetWithBody() {
-        Request testRequest = new Request(
-                "GET",
-                "/simple_get_with_body",
-                Map.of("Content-Length", "0")
-        );
-
-        Response response = new Router()
-                .call(testRequest);
-
-        Response expectedResponse = new Response(
-                "HTTP/1.1",
-                "200 OK",
-                "Content-Length:11",
-                "Hello world"
-        );
-        assertEquals(expectedResponse, response);
-    }
-
-    @Test
-    void itHandlesNonexistentRoute() {
+    void itHandlesANonexistentResource() {
         Request testRequest = new Request(
                 "GET",
                 "/nonexistent_route",
                 Map.of("Content-Length", "0")
         );
 
-        Response response = new Router()
+        Response response = new Router(testRoutes, testNotFoundResponse)
                 .call(testRequest);
 
         Response expectedResponse = new Response(
-                "HTTP/1.1",
+                "protocol",
                 "404 Not Found",
-                "Content-Length:0",
-                ""
-        );
-        assertEquals(expectedResponse, response);
-    }
-
-    @Test
-    void itHandlesAHEADRequestToSimpleGet() {
-        Request testRequest = new Request(
-                "HEAD",
-                "/simple_get",
-                Map.of("Content-Length", "0")
-        );
-
-        Response response = new Router()
-                .call(testRequest);
-
-        Response expectedResponse = new Response(
-                "HTTP/1.1",
-                "200 OK",
-                "Content-Length:0",
-                ""
-        );
-        assertEquals(expectedResponse, response);
-    }
-
-    @Test
-    void itHandlesAHEADRequestToHeadRequest() {
-        Request testRequest = new Request(
-                "HEAD",
-                "/head_request",
-                Map.of("Content-Length", "0")
-        );
-
-        Response response = new Router()
-                .call(testRequest);
-
-        Response expectedResponse = new Response(
-                "HTTP/1.1",
-                "200 OK",
-                "Content-Length:0",
+                "Route: not found",
                 ""
         );
         assertEquals(expectedResponse, response);
