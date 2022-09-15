@@ -13,16 +13,17 @@ public class Router implements Routable {
     }
 
     public Response call(Request request) {
-        Response response = routes.get(request.path());
+        Response response = routes.get(request.method() + " " + request.path());
         Response notFoundResponse = new Response(this.protocol, "404 Not Found", "Content-Length:0", "");
 
         return (response != null) ? response : notFoundResponse;
     }
 
     private void populateRoutes() {
-        routes.put("/", new Response(this.protocol, "200 OK", "Content-Length:0", ""));
-        routes.put("/simple_get", new Response(this.protocol, "200 OK", "Content-Length:0", ""));
-        routes.put("/simple_get_with_body", new Response(this.protocol, "200 OK", "Content-Length:11", "Hello world"));
-        routes.put("/head_request", new Response(this.protocol, "200 OK", "Content-Length:0", ""));
+        routes.put("GET /", new Response(this.protocol, "200 OK", "Content-Length:0", ""));
+        routes.put("GET /simple_get", new Response(this.protocol, "200 OK", "Content-Length:0", ""));
+        routes.put("HEAD /simple_get", new Response(this.protocol, "200 OK", "Content-Length:0", ""));
+        routes.put("GET /simple_get_with_body", new Response(this.protocol, "200 OK", "Content-Length:11", "Hello world"));
+        routes.put("HEAD /head_request", new Response(this.protocol, "200 OK", "Content-Length:0", ""));
     }
 }
