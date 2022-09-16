@@ -23,8 +23,8 @@ public class RouterTest {
             ),
             "HEAD /head", request -> new Response(
                     "protocol",
-                    "404 Not Found",
-                    "Route: not found",
+                    "statusCode",
+                    "Route: HEAD /head",
                     ""
             )
     );
