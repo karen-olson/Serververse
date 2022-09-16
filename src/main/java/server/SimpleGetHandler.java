@@ -1,6 +1,6 @@
 package server;
 
-public class simpleGetHandler implements Handler {
+public class SimpleGetHandler implements Handler {
     @Override
     public Response call(Request request) {
         return new Response(

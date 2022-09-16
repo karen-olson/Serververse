@@ -1,13 +1,11 @@
 package server;
 
-import java.io.IOException;
-
 public class ResponseWriter implements ResponseWriteable {
 
     public ResponseWriter() {
     }
 
-    public void call(ReadableWriteable readerWriter, Response response) throws IOException {
+    public void call(ReadableWriteable readerWriter, Response response) {
         readerWriter.writeLine(format(response));
     }
 

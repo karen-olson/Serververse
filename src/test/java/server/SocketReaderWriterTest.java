@@ -34,8 +34,10 @@ public class SocketReaderWriterTest {
     @Test
     void createsOnlyOneReaderAndOneWriter() throws IOException {
         TestSocket testSocket = new TestSocket(
-                "First input line\n" +
-                        "Second input line\n"
+                """
+                        First input line
+                        Second input line
+                        """
         );
         ReadableWriteable socketReaderWriter = new SocketReaderWriter(testSocket);
 

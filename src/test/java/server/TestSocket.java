@@ -13,7 +13,6 @@ class TestSocket extends Socket {
     private final String inputString;
     private final List<String> events = new ArrayList<>();
     private ByteArrayOutputStream outputStream;
-    private ByteArrayInputStream inputStream;
 
     public TestSocket(String inputString) {
         this.inputString = inputString;
@@ -22,8 +21,7 @@ class TestSocket extends Socket {
     @Override
     public InputStream getInputStream() {
         this.events.add("A new reader accessed the input stream");
-        inputStream = new ByteArrayInputStream(inputString.getBytes());
-        return inputStream;
+        return new ByteArrayInputStream(inputString.getBytes());
     }
 
     @Override

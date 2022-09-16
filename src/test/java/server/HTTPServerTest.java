@@ -34,11 +34,9 @@ public class HTTPServerTest {
             );
         };
 
-        ResponseWriteable responseWriter = (socketReaderWriter, response) -> {
-            socketReaderWriter.writeLine(
-                    "Valid response. %s: %s".formatted(DATA_TO_THREAD_THROUGH_PIPELINE,
-                            response.headers().split(":")[1].trim()));
-        };
+        ResponseWriteable responseWriter = (socketReaderWriter, response) -> socketReaderWriter.writeLine(
+                "Valid response. %s: %s".formatted(DATA_TO_THREAD_THROUGH_PIPELINE,
+                        response.headers().split(":")[1].trim()));
 
 
         new HTTPServer(requestParser, handler, responseWriter)

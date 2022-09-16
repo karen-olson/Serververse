@@ -1,6 +1,6 @@
 package server;
 
-public class simpleGetWithBodyHandler implements Handler {
+public class SimpleGetWithBodyHandler implements Handler {
     @Override
     public Response call(Request request) {
         return new Response(

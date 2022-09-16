@@ -1,6 +1,6 @@
 package server;
 
-public class rootPathHandler implements Handler {
+public class RootPathHandler implements Handler {
     @Override
     public Response call(Request request) {
         return new Response(

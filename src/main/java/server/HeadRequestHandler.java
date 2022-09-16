@@ -1,6 +1,6 @@
 package server;
 
-public class headRequestHandler implements Handler {
+public class HeadRequestHandler implements Handler {
     @Override
     public Response call(Request request) {
         return new Response(

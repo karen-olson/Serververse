@@ -8,35 +8,35 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RouterTest {
 
-    Response testGETGetResponse = new Response(
+    final Response testGETGetResponse = new Response(
             "protocol",
             "statusCode",
             "Route: GET /get",
             ""
     );
 
-    Response testHEADGetResponse = new Response(
+    final Response testHEADGetResponse = new Response(
             "protocol",
             "statusCode",
             "Route: HEAD /get",
             ""
     );
 
-    Response testHEADHeadResponse = new Response(
+    final Response testHEADHeadResponse = new Response(
             "protocol",
             "statusCode",
             "Route: HEAD /head",
             ""
     );
 
-    Response testNotFoundResponse = new Response(
+    final Response testNotFoundResponse = new Response(
             "protocol",
             "404 Not Found",
             "Route: not found",
             ""
     );
 
-    Map<String, Handler> testRoutes = Map.of(
+    final Map<String, Handler> testRoutes = Map.of(
             "GET /get", new TestHandler(testGETGetResponse),
             "HEAD /get", new TestHandler(testHEADGetResponse),
             "HEAD /head", new TestHandler(testHEADHeadResponse)
@@ -83,7 +83,7 @@ public class RouterTest {
         assertEquals(expectedResponse, response);
     }
 
-    class TestHandler implements Handler {
+    static class TestHandler implements Handler {
 
         private final Response response;
 

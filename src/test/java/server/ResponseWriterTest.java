@@ -2,14 +2,13 @@ package server;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ResponseWriterTest {
     @Test
-    void itWritesA200ResponseWithOneHeaderAndNoBody() throws IOException {
+    void itWritesA200ResponseWithOneHeaderAndNoBody() {
         TestReaderWriter testReaderWriter = new TestReaderWriter();
         Response response = new Response(
                 "HTTP/1.1",
@@ -27,7 +26,7 @@ public class ResponseWriterTest {
     }
 
     @Test
-    void itWritesA200ResponseWithABody() throws IOException {
+    void itWritesA200ResponseWithABody() {
         TestReaderWriter testReaderWriter = new TestReaderWriter();
         Response response = new Response(
                 "HTTP/1.1",
@@ -43,7 +42,7 @@ public class ResponseWriterTest {
     }
 
     @Test
-    void itWritesA404Response() throws IOException {
+    void itWritesA404Response() {
         TestReaderWriter testReaderWriter = new TestReaderWriter();
         Response response = new Response(
                 "HTTP/1.1",

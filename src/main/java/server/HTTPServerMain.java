@@ -4,24 +4,25 @@ import java.net.ServerSocket;
 import java.util.Map;
 
 /**
- * echoServer.Main runs the server.
+ * Main runs the server.
  */
 public class HTTPServerMain {
     public static void main(String[] args) throws Exception {
         try (ServerSocket serverSocket = new ServerSocket(5000)) {
             PortListenable portListener = new PortListener(serverSocket);
             Loopable infiniteLooper = block -> {
+                //noinspection InfiniteLoopStatement
                 while (true) {
                     block.call();
                 }
             };
 
             Map<String, Handler> routes = Map.of(
-                    "GET /", new rootPathHandler(),
-                    "GET /simple_get", new simpleGetHandler(),
-                    "HEAD /simple_get", new simpleGetHandler(),
-                    "GET /simple_get_with_body", new simpleGetWithBodyHandler(),
-                    "HEAD /head_request", new headRequestHandler()
+                    "GET /", new RootPathHandler(),
+                    "GET /simple_get", new SimpleGetHandler(),
+                    "HEAD /simple_get", new SimpleGetHandler(),
+                    "GET /simple_get_with_body", new SimpleGetWithBodyHandler(),
+                    "HEAD /head_request", new HeadRequestHandler()
             );
             Response notFoundResponse = new Response("HTTP/1.1", "404 Not Found", "Content-Length:0", "");
 
