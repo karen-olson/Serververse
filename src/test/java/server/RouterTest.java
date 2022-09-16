@@ -8,25 +8,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RouterTest {
 
-    final Response testGETGetResponse = new Response(
-            "protocol",
-            "statusCode",
-            "Route: GET /get",
-            ""
-    );
-
-    final Response testHEADGetResponse = new Response(
-            "protocol",
-            "statusCode",
-            "Route: HEAD /get",
-            ""
-    );
-
-    final Response testHEADHeadResponse = new Response(
-            "protocol",
-            "statusCode",
-            "Route: HEAD /head",
-            ""
+    final Map<String, Handler> testRoutes = Map.of(
+            "GET /get", request -> new Response(
+                    "protocol",
+                    "statusCode",
+                    "Route: GET /get",
+                    ""
+            ),
+            "HEAD /get", request -> new Response(
+                    "protocol",
+                    "statusCode",
+                    "Route: HEAD /get",
+                    ""
+            ),
+            "HEAD /head", request -> new Response(
+                    "protocol",
+                    "404 Not Found",
+                    "Route: not found",
+                    ""
+            )
     );
 
     final Response testNotFoundResponse = new Response(
@@ -34,12 +34,6 @@ public class RouterTest {
             "404 Not Found",
             "Route: not found",
             ""
-    );
-
-    final Map<String, Handler> testRoutes = Map.of(
-            "GET /get", new TestHandler(testGETGetResponse),
-            "HEAD /get", new TestHandler(testHEADGetResponse),
-            "HEAD /head", new TestHandler(testHEADHeadResponse)
     );
 
     @Test
@@ -81,20 +75,5 @@ public class RouterTest {
                 ""
         );
         assertEquals(expectedResponse, response);
-    }
-
-    static class TestHandler implements Handler {
-
-        private final Response response;
-
-        public TestHandler(Response response) {
-
-            this.response = response;
-        }
-
-        @Override
-        public Response call(Request request) {
-            return this.response;
-        }
     }
 }
