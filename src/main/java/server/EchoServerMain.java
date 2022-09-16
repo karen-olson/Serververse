@@ -10,6 +10,7 @@ public class EchoServerMain {
         try (ServerSocket serverSocket = new ServerSocket(5000)) {
             PortListenable portListener = new PortListener(serverSocket);
             Loopable infiniteLooper = block -> {
+                //noinspection InfiniteLoopStatement
                 while (true) {
                     block.call();
                 }

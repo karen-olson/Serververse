@@ -11,13 +11,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PortListenerTest {
 
     @Test
-    void itListensAndConnectsToASocket() throws IOException {
+    void itListensAndConnectsToASocket() throws Exception {
         TestServerSocket testServerSocket = new TestServerSocket("From test server socket");
         PortListenable portListener = new PortListener(testServerSocket);
 
-        ReadableWriteable socketReaderWriter = portListener.listen();
+        try (ReadableWriteable socketReaderWriter = portListener.listen()) {
 
-        assertEquals("From test server socket", socketReaderWriter.readLine());
+            assertEquals("From test server socket", socketReaderWriter.readLine());
+        }
     }
 
     private static class TestServerSocket extends ServerSocket {
