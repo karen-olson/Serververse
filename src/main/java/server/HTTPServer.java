@@ -6,8 +6,10 @@ public class HTTPServer implements Application {
 
     private final String protocol;
     private final RequestParsable requestParser;
+    private final ResponseWriteable responseWriter;
 
-    public HTTPServer(RequestParsable requestParser) {
+    public HTTPServer(RequestParsable requestParser, ResponseWriteable responseWriter) {
+        this.responseWriter = responseWriter;
         this.protocol = "HTTP/1.1";
         this.requestParser = requestParser;
     }
@@ -16,7 +18,7 @@ public class HTTPServer implements Application {
     public void call(ReadableWriteable readerWriter) throws IOException {
         Request request = requestParser.call(readerWriter);
         Response response = route(request.path());
-        response.write(readerWriter);
+        responseWriter.call(readerWriter, response);
     }
 
     private Response route(String path) {
