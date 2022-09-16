@@ -22,7 +22,8 @@ public class HTTPServerMain {
                     "GET /simple_get", new SimpleGetHandler(),
                     "HEAD /simple_get", new SimpleGetHandler(),
                     "GET /simple_get_with_body", new SimpleGetWithBodyHandler(),
-                    "HEAD /head_request", new HeadRequestHandler()
+                    "HEAD /head_request", new HeadRequestHandler(),
+                    "GET /redirect", new RedirectHandler()
             );
             Response notFoundResponse = new Response("HTTP/1.1", "404 Not Found", "Content-Length:0", "");
 
