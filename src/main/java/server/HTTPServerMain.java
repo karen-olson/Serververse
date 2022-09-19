@@ -25,10 +25,9 @@ public class HTTPServerMain {
                     "HEAD /head_request", new HeadRequestHandler(),
                     "GET /redirect", new RedirectHandler()
             );
-            Handler notFoundHandler = new NotFoundHandler();
 
             RequestParser requestParser = new RequestParser(new RequestLineParser(), new HeadersParser());
-            Handler router = new Router(routes, notFoundHandler);
+            Handler router = new Router(routes, new NotFoundHandler());
             ResponseWriteable responseWriter = new ResponseWriter();
             Application httpServer = new HTTPServer(requestParser, router, responseWriter);
 

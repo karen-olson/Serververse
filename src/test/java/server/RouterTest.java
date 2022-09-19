@@ -29,14 +29,12 @@ public class RouterTest {
             )
     );
 
-    Handler testNotFoundHandler = request -> {
-        return new Response(
-                "protocol",
-                "404 Not Found",
-                "Route: not found",
-                ""
-        );
-    };
+    Handler testNotFoundHandler = request -> new Response(
+            "protocol",
+            "404 Not Found",
+            "Route: not found",
+            ""
+    );
 
     @Test
     void itHandlesAnExistingResource() {
