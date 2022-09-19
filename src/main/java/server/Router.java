@@ -14,12 +14,9 @@ public class Router implements Handler {
     }
 
     public Response call(Request request) {
-        Handler handler = routes.get(request.method() + " " + request.path());
+        String route = request.method() + " " + request.path();
+        Handler handler = routes.getOrDefault(route, notFoundHandler);
 
-        if (handler != null) {
-            return handler.call(request);
-        } else {
-            return notFoundHandler.call(request);
-        }
+        return handler.call(request);
     }
 }
