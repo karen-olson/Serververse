@@ -5,12 +5,12 @@ import java.util.Map;
 public class Router implements Handler {
 
     private final Map<String, Handler> routes;
-    private final Response notFoundResponse;
+    private final Handler notFoundHandler;
 
-    public Router(Map<String, Handler> routes, Response notFoundResponse) {
+    public Router(Map<String, Handler> routes, Handler notFoundHandler) {
 
         this.routes = routes;
-        this.notFoundResponse = notFoundResponse;
+        this.notFoundHandler = notFoundHandler;
     }
 
     public Response call(Request request) {
@@ -19,7 +19,7 @@ public class Router implements Handler {
         if (handler != null) {
             return handler.call(request);
         } else {
-            return notFoundResponse;
+            return notFoundHandler.call(request);
         }
     }
 }

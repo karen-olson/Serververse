@@ -25,10 +25,10 @@ public class HTTPServerMain {
                     "HEAD /head_request", new HeadRequestHandler(),
                     "GET /redirect", new RedirectHandler()
             );
-            Response notFoundResponse = new Response("HTTP/1.1", "404 Not Found", "Content-Length:0", "");
+            Handler notFoundHandler = new NotFoundHandler();
 
             RequestParser requestParser = new RequestParser(new RequestLineParser(), new HeadersParser());
-            Handler router = new Router(routes, notFoundResponse);
+            Handler router = new Router(routes, notFoundHandler);
             ResponseWriteable responseWriter = new ResponseWriter();
             Application httpServer = new HTTPServer(requestParser, router, responseWriter);
 

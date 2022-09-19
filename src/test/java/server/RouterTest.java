@@ -29,12 +29,14 @@ public class RouterTest {
             )
     );
 
-    final Response testNotFoundResponse = new Response(
-            "protocol",
-            "404 Not Found",
-            "Route: not found",
-            ""
-    );
+    Handler testNotFoundHandler = request -> {
+        return new Response(
+                "protocol",
+                "404 Not Found",
+                "Route: not found",
+                ""
+        );
+    };
 
     @Test
     void itHandlesAnExistingResource() {
@@ -44,7 +46,7 @@ public class RouterTest {
                 Map.of("Content-length", "0")
         );
 
-        Response response = new Router(testRoutes, testNotFoundResponse)
+        Response response = new Router(testRoutes, testNotFoundHandler)
                 .call(testRequest);
 
         Response expectedResponse = new Response(
@@ -65,7 +67,7 @@ public class RouterTest {
                 Map.of("Content-Length", "0")
         );
 
-        Response response = new Router(testRoutes, testNotFoundResponse)
+        Response response = new Router(testRoutes, testNotFoundHandler)
                 .call(testRequest);
 
         Response expectedResponse = new Response(
