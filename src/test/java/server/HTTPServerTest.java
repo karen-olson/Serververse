@@ -20,7 +20,8 @@ public class HTTPServerTest {
                 new Request(
                         "GET",
                         "/",
-                        Map.of(DATA_TO_THREAD_THROUGH_PIPELINE, "42")
+                        Map.of(DATA_TO_THREAD_THROUGH_PIPELINE, "42"),
+                        ""
                 );
 
         Handler handler = request -> {

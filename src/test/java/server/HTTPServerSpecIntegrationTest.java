@@ -21,7 +21,12 @@ public class HTTPServerSpecIntegrationTest {
                 .send(String.format("API-Key: %s\r\n", apiKey))
                 .send("\r\n");
 
-        RequestParser requestParser = new RequestParser(new RequestLineParser(), new HeadersParser());
+        RequestParser requestParser = new RequestParser(
+                new RequestLineParser(),
+                new HeadersParser(),
+                new ContentLengthParser(),
+                new BodyParser()
+        );
         Handler router = HTTPServerSpecRouterFactory.create();
         ResponseWriteable responseWriter = new ResponseWriter();
 
@@ -46,7 +51,12 @@ public class HTTPServerSpecIntegrationTest {
                 .send(String.format("API-Key: %s\r\n", apiKey))
                 .send("\r\n");
 
-        RequestParser requestParser = new RequestParser(new RequestLineParser(), new HeadersParser());
+        RequestParser requestParser = new RequestParser(
+                new RequestLineParser(),
+                new HeadersParser(),
+                new ContentLengthParser(),
+                new BodyParser()
+        );
         Handler router = new HTTPServerSpecRouterFactory().create();
         ResponseWriteable responseWriter = new ResponseWriter();
 
@@ -71,7 +81,12 @@ public class HTTPServerSpecIntegrationTest {
                 .send(String.format("API-Key: %s\r\n", apiKey))
                 .send("\r\n");
 
-        RequestParser requestParser = new RequestParser(new RequestLineParser(), new HeadersParser());
+        RequestParser requestParser = new RequestParser(
+                new RequestLineParser(),
+                new HeadersParser(),
+                new ContentLengthParser(),
+                new BodyParser()
+        );
         Handler router = new HTTPServerSpecRouterFactory().create();
         ResponseWriteable responseWriter = new ResponseWriter();
 

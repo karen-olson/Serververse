@@ -41,7 +41,8 @@ public class RouterTest {
         Request testRequest = new Request(
                 "HEAD",
                 "/get",
-                Map.of("Content-length", "0")
+                Map.of("Content-length", "0"),
+                ""
         );
 
         Response response = new Router(testRoutes, testNotFoundHandler)
@@ -62,7 +63,8 @@ public class RouterTest {
         Request testRequest = new Request(
                 "GET",
                 "/nonexistent_route",
-                Map.of("Content-Length", "0")
+                Map.of("Content-Length", "0"),
+                ""
         );
 
         Response response = new Router(testRoutes, testNotFoundHandler)

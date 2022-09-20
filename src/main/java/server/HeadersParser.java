@@ -31,8 +31,8 @@ public class HeadersParser {
 
     private Header parseHeader(String header) {
         List<String> parsedHeader = Arrays.asList(header.split(":"));
-        String key = parsedHeader.get(0).trim();
-        String value = parsedHeader.get(1).trim();
+        String key = parsedHeader.get(0).trim().toLowerCase();
+        String value = parsedHeader.get(1).trim().toLowerCase();
 
         return new Header(key, value);
     }
