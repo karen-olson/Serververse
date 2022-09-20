@@ -3,7 +3,7 @@ package server;
 import java.util.Map;
 
 public class HTTPServerSpecRouterFactory {
-    Map<String, Handler> routes = Map.of(
+    private static final Map<String, Handler> routes = Map.of(
             "GET /", new RootPathHandler(),
             "GET /simple_get", new SimpleGetHandler(),
             "HEAD /simple_get", new SimpleGetHandler(),
@@ -12,7 +12,7 @@ public class HTTPServerSpecRouterFactory {
             "GET /redirect", new RedirectHandler()
     );
 
-    public Router create() {
+    public static Router create() {
         return new Router(routes, new NotFoundHandler());
     }
 }

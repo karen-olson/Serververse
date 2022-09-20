@@ -22,7 +22,7 @@ public class HTTPServerSpecIntegrationTest {
                 .send("\r\n");
 
         RequestParser requestParser = new RequestParser(new RequestLineParser(), new HeadersParser());
-        Handler router = new HTTPServerSpecRouterFactory().create();
+        Handler router = HTTPServerSpecRouterFactory.create();
         ResponseWriteable responseWriter = new ResponseWriter();
 
         new HTTPServer(requestParser, router, responseWriter)
