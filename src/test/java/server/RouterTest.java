@@ -23,13 +23,13 @@ public class RouterTest {
             ),
             "HEAD /head", request -> new Response(
                     "protocol",
-                    "404 Not Found",
-                    "Route: not found",
+                    "statusCode",
+                    "Route: HEAD /head",
                     ""
             )
     );
 
-    final Response testNotFoundResponse = new Response(
+    Handler testNotFoundHandler = request -> new Response(
             "protocol",
             "404 Not Found",
             "Route: not found",
@@ -44,7 +44,7 @@ public class RouterTest {
                 Map.of("Content-length", "0")
         );
 
-        Response response = new Router(testRoutes, testNotFoundResponse)
+        Response response = new Router(testRoutes, testNotFoundHandler)
                 .call(testRequest);
 
         Response expectedResponse = new Response(
@@ -65,7 +65,7 @@ public class RouterTest {
                 Map.of("Content-Length", "0")
         );
 
-        Response response = new Router(testRoutes, testNotFoundResponse)
+        Response response = new Router(testRoutes, testNotFoundHandler)
                 .call(testRequest);
 
         Response expectedResponse = new Response(

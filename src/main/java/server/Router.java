@@ -5,21 +5,18 @@ import java.util.Map;
 public class Router implements Handler {
 
     private final Map<String, Handler> routes;
-    private final Response notFoundResponse;
+    private final Handler notFoundHandler;
 
-    public Router(Map<String, Handler> routes, Response notFoundResponse) {
+    public Router(Map<String, Handler> routes, Handler notFoundHandler) {
 
         this.routes = routes;
-        this.notFoundResponse = notFoundResponse;
+        this.notFoundHandler = notFoundHandler;
     }
 
     public Response call(Request request) {
-        Handler handler = routes.get(request.method() + " " + request.path());
+        String route = request.method() + " " + request.path();
+        Handler handler = routes.getOrDefault(route, notFoundHandler);
 
-        if (handler != null) {
-            return handler.call(request);
-        } else {
-            return notFoundResponse;
-        }
+        return handler.call(request);
     }
 }
