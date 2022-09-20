@@ -4,20 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class IntegrationTest {
-    Map<String, Handler> routes = Map.of(
-            "GET /", new RootPathHandler(),
-            "GET /simple_get", new SimpleGetHandler(),
-            "HEAD /simple_get", new SimpleGetHandler(),
-            "GET /simple_get_with_body", new SimpleGetWithBodyHandler(),
-            "HEAD /head_request", new HeadRequestHandler(),
-            "GET /redirect", new RedirectHandler()
-    );
+public class HTTPServerSpecIntegrationTest {
 
     @Test
     void itHandlesAnExistingResource() throws IOException {
@@ -31,7 +22,7 @@ public class IntegrationTest {
                 .send("\r\n");
 
         RequestParser requestParser = new RequestParser(new RequestLineParser(), new HeadersParser());
-        Handler router = new Router(routes, new NotFoundHandler());
+        Handler router = new HTTPServerSpecRouterFactory().create();
         ResponseWriteable responseWriter = new ResponseWriter();
 
         new HTTPServer(requestParser, router, responseWriter)
@@ -56,7 +47,7 @@ public class IntegrationTest {
                 .send("\r\n");
 
         RequestParser requestParser = new RequestParser(new RequestLineParser(), new HeadersParser());
-        Handler router = new Router(routes, new NotFoundHandler());
+        Handler router = new HTTPServerSpecRouterFactory().create();
         ResponseWriteable responseWriter = new ResponseWriter();
 
         new HTTPServer(requestParser, router, responseWriter)
@@ -81,7 +72,7 @@ public class IntegrationTest {
                 .send("\r\n");
 
         RequestParser requestParser = new RequestParser(new RequestLineParser(), new HeadersParser());
-        Handler router = new Router(routes, new NotFoundHandler());
+        Handler router = new HTTPServerSpecRouterFactory().create();
         ResponseWriteable responseWriter = new ResponseWriter();
 
         new HTTPServer(requestParser, router, responseWriter)

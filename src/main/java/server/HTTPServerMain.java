@@ -1,7 +1,6 @@
 package server;
 
 import java.net.ServerSocket;
-import java.util.Map;
 
 /**
  * Main runs the server.
@@ -17,18 +16,10 @@ public class HTTPServerMain {
                 }
             };
 
-            Map<String, Handler> routes = Map.of(
-                    "GET /", new RootPathHandler(),
-                    "GET /simple_get", new SimpleGetHandler(),
-                    "HEAD /simple_get", new SimpleGetHandler(),
-                    "GET /simple_get_with_body", new SimpleGetWithBodyHandler(),
-                    "HEAD /head_request", new HeadRequestHandler(),
-                    "GET /redirect", new RedirectHandler()
-            );
-
             RequestParser requestParser = new RequestParser(new RequestLineParser(), new HeadersParser());
-            Handler router = new Router(routes, new NotFoundHandler());
+            Handler router = new HTTPServerSpecRouterFactory().create();
             ResponseWriteable responseWriter = new ResponseWriter();
+            
             Application httpServer = new HTTPServer(requestParser, router, responseWriter);
 
             new Server(infiniteLooper, portListener).serve(httpServer);
