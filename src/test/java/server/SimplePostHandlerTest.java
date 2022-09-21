@@ -13,18 +13,18 @@ public class SimplePostHandlerTest {
                 "POST",
                 "/echo_body",
                 Map.of("content-length", "11",
-                        "content-type", "text"
+                        "content-type", "text/plain"
                 ),
                 "Hello World"
         );
 
         Response response = new SimplePostHandler().call(request);
-
+        
         Response expectedResponse = new Response(
                 "HTTP/1.1",
                 "200 OK",
                 Map.of("Content-Length", "11",
-                        "Content-Type", "text"
+                        "Content-Type", "text/plain"
                 ),
                 "Hello World"
         );

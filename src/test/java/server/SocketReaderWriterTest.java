@@ -10,6 +10,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SocketReaderWriterTest {
 
     @Test
+    void itReadsTextUpToAGivenLength() throws IOException {
+        String input = "Hello, world! 😀";
+        TestSocket testSocket = new TestSocket(String.format(input));
+        ReadableWriteable socketReaderWriter = new SocketReaderWriter(testSocket);
+        int contentLength = input.length();
+
+        String message = socketReaderWriter.read(contentLength);
+
+        assertEquals("Hello, world! 😀", message);
+    }
+
+    @Test
     void readsALineOfText() throws IOException {
         TestSocket testSocket = new TestSocket("Hello\n");
         ReadableWriteable socketReaderWriter = new SocketReaderWriter(testSocket);

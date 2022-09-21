@@ -9,19 +9,23 @@ public class ResponseWriter implements ResponseWriteable {
     }
 
     private String format(Response response) {
-        String space = " ";
-        String headers = headersAsString(response);
+        String statusLine = statusLine(response);
+        String headers = headers(response);
+        String body = response.body();
 
-        return response.protocol() + space + response.statusCode() + CRLF +
-                headers + CRLF +
-                response.body();
+        return statusLine + headers + CRLF + body;
     }
 
-    private String headersAsString(Response response) {
-        StringBuilder headersAsString = new StringBuilder();
+    private String statusLine(Response response) {
+        String space = " ";
+        return response.protocol() + space + response.statusCode() + CRLF;
+    }
+
+    private String headers(Response response) {
+        StringBuilder headers = new StringBuilder();
         for (String key : response.headers().keySet()) {
-            headersAsString.append(key + ": " + response.headers().get(key) + CRLF);
+            headers.append(key).append(": ").append(response.headers().get(key)).append(CRLF);
         }
-        return headersAsString.toString();
+        return headers.toString();
     }
 }

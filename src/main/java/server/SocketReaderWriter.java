@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public class SocketReaderWriter implements ReadableWriteable {
     private final Socket socket;
@@ -14,9 +15,15 @@ public class SocketReaderWriter implements ReadableWriteable {
     public SocketReaderWriter(Socket socket) throws IOException {
         this.socket = socket;
         this.reader = new BufferedReader(
-                new InputStreamReader(this.socket.getInputStream())
+                new InputStreamReader(this.socket.getInputStream(), StandardCharsets.UTF_8)
         );
         this.writer = new PrintWriter(socket.getOutputStream(), true);
+    }
+
+    public String read(int contentLength) throws IOException {
+        char[] container = new char[contentLength];
+        reader.read(container, 0, contentLength);
+        return new String(container, 0, contentLength);
     }
 
     @Override
