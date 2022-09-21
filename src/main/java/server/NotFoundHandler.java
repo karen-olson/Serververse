@@ -1,5 +1,7 @@
 package server;
 
+import java.util.Map;
+
 public class NotFoundHandler implements Handler {
 
     @Override
@@ -7,7 +9,7 @@ public class NotFoundHandler implements Handler {
         return new Response(
                 "HTTP/1.1",
                 "404 Not Found",
-                "Content-Length:0",
+                Map.of("Content-Length", "0"),
                 ""
         );
     }

@@ -30,14 +30,14 @@ public class HTTPServerTest {
             return new Response(
                     "HTTP/1.1",
                     "200 OK",
-                    "%s: %s".formatted(DATA_TO_THREAD_THROUGH_PIPELINE, cookie),
+                    Map.of(DATA_TO_THREAD_THROUGH_PIPELINE, cookie),
                     ""
             );
         };
 
         ResponseWriteable responseWriter = (socketReaderWriter, response) -> socketReaderWriter.writeLine(
                 "Valid response. %s: %s".formatted(DATA_TO_THREAD_THROUGH_PIPELINE,
-                        response.headers().split(":")[1].trim()));
+                        response.headers().get(DATA_TO_THREAD_THROUGH_PIPELINE)));
 
 
         new HTTPServer(requestParser, handler, responseWriter)

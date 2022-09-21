@@ -12,19 +12,19 @@ public class RouterTest {
             "GET /get", request -> new Response(
                     "protocol",
                     "statusCode",
-                    "Route: GET /get",
+                    Map.of("Route", "GET /get"),
                     ""
             ),
             "HEAD /get", request -> new Response(
                     "protocol",
                     "statusCode",
-                    "Route: HEAD /get",
+                    Map.of("Route", "HEAD /get"),
                     ""
             ),
             "HEAD /head", request -> new Response(
                     "protocol",
                     "statusCode",
-                    "Route: HEAD /head",
+                    Map.of("Route", "HEAD /head"),
                     ""
             )
     );
@@ -32,7 +32,7 @@ public class RouterTest {
     Handler testNotFoundHandler = request -> new Response(
             "protocol",
             "404 Not Found",
-            "Route: not found",
+            Map.of("Route", "not found"),
             ""
     );
 
@@ -51,7 +51,7 @@ public class RouterTest {
         Response expectedResponse = new Response(
                 "protocol",
                 "statusCode",
-                "Route: HEAD /get",
+                Map.of("Route", "HEAD /get"),
                 ""
         );
 
@@ -73,7 +73,7 @@ public class RouterTest {
         Response expectedResponse = new Response(
                 "protocol",
                 "404 Not Found",
-                "Route: not found",
+                Map.of("Route", "not found"),
                 ""
         );
         assertEquals(expectedResponse, response);

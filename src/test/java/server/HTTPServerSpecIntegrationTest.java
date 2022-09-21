@@ -34,7 +34,7 @@ public class HTTPServerSpecIntegrationTest {
                 .call(readerWriter);
 
         List<String> expectedResponse = List.of(
-                "HTTP/1.1 200 OK\r\nContent-Length:11\r\n\r\nHello world"
+                "HTTP/1.1 200 OK\r\nContent-Length: 11\r\n\r\nHello world"
         );
 
         assertEquals(expectedResponse, readerWriter.received());
@@ -57,14 +57,14 @@ public class HTTPServerSpecIntegrationTest {
                 new ContentLengthParser(),
                 new BodyParser()
         );
-        Handler router = new HTTPServerSpecRouterFactory().create();
+        Handler router = HTTPServerSpecRouterFactory.create();
         ResponseWriteable responseWriter = new ResponseWriter();
 
         new HTTPServer(requestParser, router, responseWriter)
                 .call(readerWriter);
 
         List<String> expectedResponse = List.of(
-                "HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n\r\n"
+                "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n"
         );
 
         assertEquals(expectedResponse, readerWriter.received());
@@ -87,7 +87,7 @@ public class HTTPServerSpecIntegrationTest {
                 new ContentLengthParser(),
                 new BodyParser()
         );
-        Handler router = new HTTPServerSpecRouterFactory().create();
+        Handler router = HTTPServerSpecRouterFactory.create();
         ResponseWriteable responseWriter = new ResponseWriter();
 
         new HTTPServer(requestParser, router, responseWriter)
