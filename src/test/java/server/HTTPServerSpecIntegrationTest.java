@@ -99,4 +99,36 @@ public class HTTPServerSpecIntegrationTest {
 
         assertEquals(expectedResponse, readerWriter.received());
     }
+
+    @Test
+    void itHandlesASimplePostRequest() throws IOException {
+        UUID apiKey = UUID.randomUUID();
+
+        TestReaderWriter readerWriter = new TestReaderWriter()
+                .send("POST /echo_body HTTP/1.1\r\n")
+                .send("Content-Length: 11\r\n")
+                .send("Content-Type: text\r\n")
+                .send(String.format("API-Key: %s\r\n", apiKey))
+                .send("\r\n")
+                .send("Hello World");
+
+
+        RequestParser requestParser = new RequestParser(
+                new RequestLineParser(),
+                new HeadersParser(),
+                new ContentLengthParser(),
+                new BodyParser()
+        );
+        Handler router = HTTPServerSpecRouterFactory.create();
+        ResponseWriteable responseWriter = new ResponseWriter();
+
+        new HTTPServer(requestParser, router, responseWriter)
+                .call(readerWriter);
+
+        List<String> expectedResponse = List.of(
+                "HTTP/1.1 200 OK\r\nContent-Length: 11\r\nContent-Type: text\r\n\r\nHello World"
+        );
+
+        assertEquals(expectedResponse, readerWriter.received());
+    }
 }
