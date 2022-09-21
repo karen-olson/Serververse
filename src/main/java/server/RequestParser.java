@@ -15,6 +15,7 @@ public class RequestParser implements RequestParsable {
 
     public Request call(ReadableWriteable readableWriteable) throws IOException {
         RequestLineParser.RequestLine requestLine = requestLineParser.parse(readableWriteable);
+        System.out.println("request line in RequestParser: " + requestLine);
         Map<String, String> headers = headersParser.parse(readableWriteable);
 
         return new Request(requestLine.method(), requestLine.path(), headers);

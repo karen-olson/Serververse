@@ -21,7 +21,9 @@ public class SocketReaderWriter implements ReadableWriteable {
 
     @Override
     public String readLine() throws IOException {
-        return reader.readLine();
+        String line = reader.readLine();
+        System.out.println("line in SocketReaderWriter: " + line);
+        return line;
     }
 
     @Override
