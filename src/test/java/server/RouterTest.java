@@ -29,7 +29,7 @@ public class RouterTest {
             )
     );
 
-    Handler testNotFoundHandler = request -> new Response(
+    private final Handler testNotFoundHandler = request -> new Response(
             "protocol",
             "404 Not Found",
             Map.of("Route", "not found"),

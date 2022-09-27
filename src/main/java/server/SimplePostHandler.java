@@ -6,13 +6,12 @@ import java.util.Map;
 public class SimplePostHandler implements Handler {
 
     public Response call(Request request) {
-        Response response = new Response(
+        return new Response(
                 "HTTP/1.1",
                 "200 OK",
                 responseHeaders(request),
                 request.body()
         );
-        return response;
     }
 
     private Map<String, String> responseHeaders(Request request) {

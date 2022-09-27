@@ -20,7 +20,7 @@ public class RequestParser implements RequestParsable {
     public Request call(ReadableWriteable readableWriteable) throws IOException {
         RequestLineParser.RequestLine requestLine = requestLineParser.parse(readableWriteable);
         Map<String, String> headers = headersParser.parse(readableWriteable);
-        Integer contentLength = contentLengthParser.parse(headers);
+        int contentLength = contentLengthParser.parse(headers);
         String body = bodyParser.parse(readableWriteable, contentLength);
 
         return new Request(requestLine.method(), requestLine.path(), headers, body);

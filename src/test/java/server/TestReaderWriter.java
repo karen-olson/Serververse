@@ -18,11 +18,11 @@ public class TestReaderWriter implements ReadableWriteable {
 
     @Override
     public String read(int contentLength) {
-        String body = "";
+        StringBuilder body = new StringBuilder();
         while (body.length() < contentLength) {
-            body += this.readLine();
+            body.append(this.readLine());
         }
-        return body;
+        return body.toString();
     }
 
     @Override

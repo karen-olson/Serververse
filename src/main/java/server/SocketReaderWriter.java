@@ -22,6 +22,7 @@ public class SocketReaderWriter implements ReadableWriteable {
 
     public String read(int contentLength) throws IOException {
         char[] container = new char[contentLength];
+        //noinspection ResultOfMethodCallIgnored
         reader.read(container, 0, contentLength);
         return new String(container, 0, contentLength);
     }

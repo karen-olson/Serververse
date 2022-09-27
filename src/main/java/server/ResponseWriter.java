@@ -2,7 +2,7 @@ package server;
 
 public class ResponseWriter implements ResponseWriteable {
 
-    String CRLF = "\r\n";
+    private final String CRLF = "\r\n";
 
     public void call(ReadableWriteable readerWriter, Response response) {
         readerWriter.writeLine(format(response));
