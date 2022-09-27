@@ -1,4 +1,4 @@
 package server;
 
-public record Response(String protocol, String statusCode, String headers, String body) {
+public record Response(String protocol, String statusCode, java.util.Map<String, String> headers, String body) {
 }

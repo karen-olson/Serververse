@@ -9,7 +9,8 @@ public class HTTPServerSpecRouterFactory {
             "HEAD /simple_get", new SimpleGetHandler(),
             "GET /simple_get_with_body", new SimpleGetWithBodyHandler(),
             "HEAD /head_request", new HeadRequestHandler(),
-            "GET /redirect", new RedirectHandler()
+            "GET /redirect", new RedirectHandler(),
+            "POST /echo_body", new SimplePostHandler()
     );
 
     public static Router create() {

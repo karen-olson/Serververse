@@ -9,6 +9,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HeadersParserTest {
+
     @Test
     void itParsesASingleHeader() throws IOException {
         ReadableWriteable readableWriteable = new TestReaderWriter()
@@ -18,7 +19,19 @@ public class HeadersParserTest {
         Map<String, String> header = new HeadersParser()
                 .parse(readableWriteable);
 
-        assertEquals(Map.of("Content-Length", "0"), header);
+        assertEquals(Map.of("content-length", "0"), header);
+    }
+
+    @Test
+    void headersAreCaseInsensitive() throws IOException {
+        ReadableWriteable readableWriteable = new TestReaderWriter()
+                .send("CONTENT-length: 0\r\n")
+                .send("\r\n");
+
+        Map<String, String> header = new HeadersParser()
+                .parse(readableWriteable);
+
+        assertEquals(Map.of("content-length", "0"), header);
     }
 
     @Test
@@ -34,9 +47,9 @@ public class HeadersParserTest {
                 .parse(readableWriteable);
 
         assertEquals(Map.of(
-                "Content-Length", "0",
-                "Content-Type", "text",
-                "API-Key", apiKey.toString()
+                "content-length", "0",
+                "content-type", "text",
+                "api-key", apiKey.toString()
         ), headers);
     }
 
@@ -49,7 +62,7 @@ public class HeadersParserTest {
         Map<String, String> header = new HeadersParser()
                 .parse(readableWriteable);
 
-        assertEquals(Map.of("Content-Length", "0"), header);
+        assertEquals(Map.of("content-length", "0"), header);
     }
 
     @Test
@@ -61,6 +74,6 @@ public class HeadersParserTest {
         Map<String, String> header = new HeadersParser()
                 .parse(readableWriteable);
 
-        assertEquals(Map.of("Content-Length", "0"), header);
+        assertEquals(Map.of("content-length", "0"), header);
     }
 }

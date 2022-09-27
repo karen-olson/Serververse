@@ -8,7 +8,6 @@ public class RequestLineParser {
 
     public RequestLine parse(ReadableWriteable readableWriteable) throws IOException {
         String line = readableWriteable.readLine();
-
         List<String> rawRequestLine = Arrays.asList(line.split("\\s"));
 
         String method = rawRequestLine.get(0);

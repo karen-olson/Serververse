@@ -17,6 +17,15 @@ public class TestReaderWriter implements ReadableWriteable {
     }
 
     @Override
+    public String read(int contentLength) {
+        StringBuilder body = new StringBuilder();
+        while (body.length() < contentLength) {
+            body.append(this.readLine());
+        }
+        return body.toString();
+    }
+
+    @Override
     public void writeLine(String message) {
         written.add(message);
     }
@@ -34,5 +43,4 @@ public class TestReaderWriter implements ReadableWriteable {
     public List<String> received() {
         return written;
     }
-
 }

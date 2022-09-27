@@ -16,7 +16,12 @@ public class HTTPServerMain {
                 }
             };
 
-            RequestParser requestParser = new RequestParser(new RequestLineParser(), new HeadersParser());
+            RequestParser requestParser = new RequestParser(
+                    new RequestLineParser(),
+                    new HeadersParser(),
+                    new ContentLengthParser(),
+                    new BodyParser()
+            );
             Handler router = HTTPServerSpecRouterFactory.create();
             ResponseWriteable responseWriter = new ResponseWriter();
 
