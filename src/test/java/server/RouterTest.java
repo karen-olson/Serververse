@@ -12,27 +12,27 @@ public class RouterTest {
             "GET /get", request -> new Response(
                     "protocol",
                     "statusCode",
-                    "Route: GET /get",
+                    Map.of("Route", "GET /get"),
                     ""
             ),
             "HEAD /get", request -> new Response(
                     "protocol",
                     "statusCode",
-                    "Route: HEAD /get",
+                    Map.of("Route", "HEAD /get"),
                     ""
             ),
             "HEAD /head", request -> new Response(
                     "protocol",
                     "statusCode",
-                    "Route: HEAD /head",
+                    Map.of("Route", "HEAD /head"),
                     ""
             )
     );
 
-    Handler testNotFoundHandler = request -> new Response(
+    private final Handler testNotFoundHandler = request -> new Response(
             "protocol",
             "404 Not Found",
-            "Route: not found",
+            Map.of("Route", "not found"),
             ""
     );
 
@@ -41,7 +41,8 @@ public class RouterTest {
         Request testRequest = new Request(
                 "HEAD",
                 "/get",
-                Map.of("Content-length", "0")
+                Map.of("Content-length", "0"),
+                ""
         );
 
         Response response = new Router(testRoutes, testNotFoundHandler)
@@ -50,7 +51,7 @@ public class RouterTest {
         Response expectedResponse = new Response(
                 "protocol",
                 "statusCode",
-                "Route: HEAD /get",
+                Map.of("Route", "HEAD /get"),
                 ""
         );
 
@@ -62,7 +63,8 @@ public class RouterTest {
         Request testRequest = new Request(
                 "GET",
                 "/nonexistent_route",
-                Map.of("Content-Length", "0")
+                Map.of("Content-Length", "0"),
+                ""
         );
 
         Response response = new Router(testRoutes, testNotFoundHandler)
@@ -71,7 +73,7 @@ public class RouterTest {
         Response expectedResponse = new Response(
                 "protocol",
                 "404 Not Found",
-                "Route: not found",
+                Map.of("Route", "not found"),
                 ""
         );
         assertEquals(expectedResponse, response);
