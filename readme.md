@@ -1,8 +1,6 @@
 # Serververse
 
-Serververse is an echo server built in Java, which echoes back any text that is sent to it. It was created using JDK 17
-and
-Gradle 7.4.
+Serververse is a server application built in Java using the [Chain of Responsibility](https://refactoring.guru/design-patterns/chain-of-responsibility) design pattern. It can be run as an Echo Server, which echoes any text that is sent to it, or an HTTP server, which processes HTTP requests. It was created using JDK 17 and Gradle 7.4.
 
 ## Table of Contents
 
@@ -50,13 +48,5 @@ To stop the server, enter CTRL+C in the terminal.
 
 ### Making a Request
 
-There are many ways you can make a request to the server.
-
-#### Request Using Netcat
-
 To make requests using netcat, enter ``nc <url>`` in the terminal.
 To disconnect from the server when using netcat, enter CTRL+C or CTRL+D in the terminal.
-
-## Future Implementation
-
-- Create an HTTP server using this project as the starting point.
